@@ -7,27 +7,27 @@
 ```
 初步框架，后面可能会不断完善和修改
 nlp
-├── dataset                                 # 数据集文件夹，尝试的数据集都放在这里
-│   └── CEC-Corpus                          # CEC-Corpus，目前打算就用这个了,数据预处理后的格式也存在这里面吧
-│       ├── CEC                        		# CEC项目原始文件夹
-│       ├── raw corpus               		# CEC项目原始文件夹
-│       └── CEC_clean                       # 自己加的文件夹，用于存放预处理后的数据
+├── dataset                                  # 数据集文件夹，尝试的数据集都放在这里
+│   └── CEC-Corpus                           # CEC-Corpus，目前打算就用这个了,数据预处理后的格式也存在这里面吧
+│       ├── CEC                              # CEC项目原始文件夹
+│       ├── raw corpus                       # CEC项目原始文件夹
+│       └── CEC_clean                        # 自己加的文件夹，用于存放预处理后的数据
 │
-├── pretrained_model                        # 预训练模型文件夹，尝试的预训练模型都放在这里
-│   └── chinese_roberta_wwm_ext_pytorch     # pytorch版的中文RoBERTa-wwm-ext模型，目前打算用这个了
+├── pretrained_model                         # 预训练模型文件夹，尝试的预训练模型都放在这里
+│   └── chinese_roberta_wwm_ext_pytorch      # pytorch版的中文RoBERTa-wwm-ext模型，目前打算用这个了
 │
-├── src										# 代码文件夹，代码都放在这里
-│   ├── config.py                   		# 一些配置，比如一些读取路径
-│   ├── data_converter.py                   # 数据预处理（转格式、加标注、转token_id） 
-│   ├── model.py							# 模型定义
-│   ├── train.py  							# 训练
-│   └── predict.py  						# 预测
+├── src# 代码文件夹，代码都放在这里
+│   ├── config.py                            # 一些配置，比如一些读取路径
+│   ├── data_converter.py                    # 数据预处理（转格式、加标注、转token_id） 
+│   ├── model.py                             # 模型定义
+│   ├── train.py                             # 训练
+│   └── predict.py                           # 预测
 │
-├── reference  								# 一些参考资料，包括开源项目、论文
+├── reference                                # 一些参考资料，包括开源项目、论文
 │ 
-├── saved_model  							# 用于存放训练好的模型，一些中间权重也可先放在这里
+├── saved_model                              # 用于存放训练好的模型，一些中间权重也可先放在这里
 │                         
-└── readme.md                               # ...
+└── readme.md                                # ...
 ```
 
 ## 目前的一些问题
