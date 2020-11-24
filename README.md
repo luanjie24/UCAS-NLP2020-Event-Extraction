@@ -6,31 +6,32 @@
 
 ```
 初步框架，后面可能会不断完善和修改
-nlp
-├── dataset                                  # 数据集文件夹，尝试的数据集都放在这里
-│   └── CEC-Corpus                           # CEC-Corpus，目前打算就用这个了,数据预处理后的格式也存在这里面吧
-│       ├── CEC                              # CEC项目原始文件夹
-│       ├── raw corpus                       # CEC项目原始文件夹
-│       ├── CEC_clean                        # 自己加的文件夹，用于存放预处理后的数据
-│       ├── CEC数据集标注结构说明图.jpg      # CEC项目标注内容的说明图
-│       └── README.md                        # CEC项目的描述文件夹
-│
-├── pretrained_model                         # 预训练模型文件夹，尝试的预训练模型都放在这里
-│   └── chinese_roberta_wwm_ext_pytorch      # pytorch版的中文RoBERTa-wwm-ext模型，目前打算用这个了
-│
+
+├── README.md
+├── dataset
+│   ├── ACE_2005_json_en&ch_by延浩然
+│   └── CEC-Corpus
+├── pretrained_model                                    # 预训练模型文件夹，尝试的预训练模型都放在这里
+│   └── chinese_roberta_wwm_ext_pytorch                 # pytorch版的中文RoBERTa-wwm-ext模型，目前打算用这个了
+├── reference_paper                                     # 可供参考的文献，如果希望大家都看到，可以文件名之前打个叹号
+│   ├── A Survey of Event Extraction From Text.pdf
+│   ├── A Survey of Textual Event Extraction from Social.pdf
+│   └── An Overview of Event Extraction from Text.pdf
+├── reference_project                                   # 可供参考的其他人的项目   
+│   ├── Transformer-based-pretrained-model-for-event-extraction-master
+│   └── xf_event_extraction2020Top1-master
+├── saved_model                                          # 用于存放训练好的模型，一些中间权重也可先放在这里
+│   └── 这个文件夹用于存储训练好的模型.txt
 ├── src# 代码文件夹，代码都放在这里
-│   ├── config.py                            # 一些配置，比如一些读取路径
-│   ├── data_converter.py                    # 数据预处理（转格式、加标注、转token_id） 
-│   ├── model.py                             # 模型定义
-│   ├── train.py                             # 训练
-│   └── predict.py                           # 预测
-│
-├── reference                                # 一些参考资料，包括开源项目、论文
-│ 
-├── saved_model                              # 用于存放训练好的模型，一些中间权重也可先放在这里
-│                         
-└── README.md                                # ...
+│   ├── config.py                                       # 一些配置，比如一些读取路径
+│   ├── data_converter.py                               # 数据预处理（转格式、加标注、转token_id） 
+│   ├── model.py                                        # 模型定义
+│   ├── train.py                                        # 训练
+│   └── predict.py                                      # 预测
+└── 事件抽取知识梳理.docx
+
 ```
+
 
 ## 目前的一些问题
 pytorch版的中文RoBERTa-wwm-ext模型有点大，上传不上来，可以自己下载一下
