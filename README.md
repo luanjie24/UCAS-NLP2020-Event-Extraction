@@ -47,4 +47,6 @@ pytorch版的中文RoBERTa-wwm-ext模型有点大，上传不上来，可以自�
 
 ## 工作日志
 
-
+2020/11/24 王泽霖
+1. 从科大讯飞的数据集读取数据
+2. 将每个 sentence 转换为 bert tokens

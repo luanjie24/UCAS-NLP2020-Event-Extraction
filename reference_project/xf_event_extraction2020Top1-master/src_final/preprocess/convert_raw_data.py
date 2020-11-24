@@ -477,7 +477,7 @@ def split_preliminary_role_data(base_dir, save_dir):
 
 
 if __name__ == '__main__':
-    convert_raw_data('../../data/final', save_data=True, save_dict=False)
+    convert_raw_data('../../data/final', save_data=False, save_dict=False)
     split_preliminary_trigger_data('../../data/final/raw_data', '../../data/final/preliminary_clean')
     split_preliminary_role_data('../../data/final/raw_data', '../../data/final/preliminary_clean')
 
