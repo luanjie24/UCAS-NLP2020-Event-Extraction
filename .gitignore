@@ -1,3 +1,6 @@
+
+reference_project/2020-IFLYTEK.AI-Event-Extraction-Challenge
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +130,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+reference_project/2020-IFLYTEK.AI-Event-Extraction-Challenge
