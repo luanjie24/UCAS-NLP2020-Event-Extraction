@@ -18,7 +18,7 @@ if __name__ == '__main__':
     tokenizer = BertTokenizer.from_pretrained(Config.bert_dir)
 
     # input_ids就是一连串token在字典中的对应id。形状为(Config.batch_size, sequence_length)
-    # sequence_length一般用padding把每句话的长度统一
+    # sequence_length一般用padding把每句话的长度统一，长度在config.py里定义了，可以直接调
     input_ids=[]
     input_ids.append(tokenizer.encode(test_samples1))
     input_ids.append(tokenizer.encode(test_samples2))
@@ -39,11 +39,7 @@ if __name__ == '__main__':
     trigger_extractor.to(Config.device)
 
     output_tensor=trigger_extractor(input_tensor)#这里前向传播一次看看效果 这里应该再加一个attention_mask，目前为attention_mask=None
-    print(output_tensor.shape)
-    # print(output_tensor)
-    print(output_tensor[0].shape)
-    # print(output_tensor[0])
-    print(output_tensor[1,:,:].shape)
-    print(output_tensor[:,:,2].shape)
-    print(output_tensor[:,3,:].shape)
+    # print(output_tensor.shape)
+    print(output_tensor)
+
 

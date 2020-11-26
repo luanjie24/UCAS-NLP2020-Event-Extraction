@@ -15,6 +15,7 @@ class Config:
 
     # 超参数
     batch_size = 2 # 现在设置为2是为了测试
+    sequence_length = 256 # 每句话的长度，不到这个长度就padding
     trigger_txtractor_mid_linear_dims = 128 # 这个是触发词提取模型的线性层的输出维度
 
 
