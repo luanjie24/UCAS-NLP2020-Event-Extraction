@@ -14,6 +14,7 @@ class Config:
     bert_dir='../pretrained_model/chinese_roberta_wwm_ext_pytorch'
 
     # 超参数
-    batch_size = 2 #现在设置为2是为了测试
+    batch_size = 2 # 现在设置为2是为了测试
+    trigger_txtractor_mid_linear_dims = 128 # 这个是触发词提取模型的线性层的输出维度
 
 
