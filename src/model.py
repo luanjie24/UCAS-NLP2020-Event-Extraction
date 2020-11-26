@@ -15,6 +15,11 @@ class TriggerExtractor(nn.Module):
         for param in self.bert_model.parameters():
             param.requires_grad = True # 微调时是否调BERT，True的话就调
 
+        # if use_distant_trigger:
+        #     embedding_dim = kwargs.pop('embedding_dims', 256)
+        #     self.distant_trigger_embedding = nn.Embedding(num_embeddings=2, embedding_dim=embedding_dim)
+        #     out_dims += embedding_dim
+
         # 线性层
         self.mid_linear = nn.Sequential(
             # nn.Linear要求输入是二维的，而bert输出是三维的，这里舍弃batch_size的那个维度
@@ -31,6 +36,11 @@ class TriggerExtractor(nn.Module):
 
         # 用于二分类的交叉熵损失函数
         self.criterion = nn.BCELoss()
+
+        # init_blocks = [self.mid_linear, self.classifier]
+
+        # if use_distant_trigger:
+        #     init_blocks += [self.distant_trigger_embedding]
 
 
 
