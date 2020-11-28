@@ -15,14 +15,15 @@ class TriggerExtractor(nn.Module):
         for param in self.bert_model.parameters():
             param.requires_grad = True # 微调时是否调BERT，True的话就调
 
+        # 将输出的embedding融合触发词特征，这个先不做了
         # if use_distant_trigger:
         #     embedding_dim = kwargs.pop('embedding_dims', 256)
         #     self.distant_trigger_embedding = nn.Embedding(num_embeddings=2, embedding_dim=embedding_dim)
         #     out_dims += embedding_dim
 
+
         # 线性层
         self.mid_linear = nn.Sequential(
-            # nn.Linear要求输入是二维的，而bert输出是三维的，这里舍弃batch_size的那个维度
             nn.Linear(self.bert_config.hidden_size, Config.trigger_txtractor_mid_linear_dims), 
             nn.ReLU(),
             nn.Dropout(0.1)
@@ -37,37 +38,44 @@ class TriggerExtractor(nn.Module):
         # 用于二分类的交叉熵损失函数
         self.criterion = nn.BCELoss()
 
+        # distant_trigger相关
         # init_blocks = [self.mid_linear, self.classifier]
-
         # if use_distant_trigger:
         #     init_blocks += [self.distant_trigger_embedding]
 
 
 
-    def forward(self, input_tensor, attention_mask=None):
-        # attention_mask用于微调BERT，是对padding部分进行mask
-        # shape:(batch_size, Config.sequence_length, hidden_size) hidden_size=768，就是这个bert的参数
+    def forward(self, input_tensor, attention_mask=None, labels=None):
+        # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
+        # attention_mask用于微调BERT，是对padding部分进行mask，shape:(batch_size, Config.sequence_length, hidden_size) hidden_size=768，就是这个bert的参数
         embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask)
 
-        # 这块貌似就取第一句话的特征，这样输入batch个句子最后只输出一个句子的结果
-        seq_out = embedding_output[0,:,:] # shape:(Config.sequence_length, hidden_size) 
+        # 这块貌似就取第一句话的特征，这样输入batch个句子最后只输出一个句子的结果，不知道参考代码为什么这么做，舍弃了
+        # seq_out = embedding_output[0,:,:] # shape:(Config.sequence_length, hidden_size) 
+        # print(embedding_output[0,:,:].shape)
+        # print(embedding_output[:,0,:].shape) # shape:(Config.train_batch_size, hidden_size)
 
-        # 将输出的embedding融合触发词特征
+        # 将输出的embedding融合触发词特征，这个先不做了
         # if self.use_distant_trigger:
         #     assert distant_trigger is not None, \
         #         'When using distant trigger features, distant trigger should be implemented'
-
         #     distant_trigger_feature = self.distant_trigger_embedding(distant_trigger)
         #     seq_out = torch.cat([seq_out, distant_trigger_feature], dim=-1)
 
-        seq_out = self.mid_linear(seq_out) # shape:(Config.sequence_length, Config.trigger_txtractor_mid_linear_dims)
+        seq_out = self.mid_linear(embedding_output) # shape:(Config.train_batch_size, Config.sequence_length, Config.trigger_txtractor_mid_linear_dims)
+        # print(seq_out.shape) 
 
         # 分类器 2列，第一列表示这个字是不是trigger的起始字，第二列表示这个字是不是trigger的终止字
-        logits = self.activation(self.classifier(seq_out)) # shape:(Config.sequence_length, 2)
+        logits = self.activation(self.classifier(seq_out)) # shape:(Config.train_batch_size, Config.sequence_length, 2)
 
-        # out = (logits,)
+        out = (logits,)
 
-        return logits
+        # 算损失
+        if labels is not None:
+            loss = self.criterion(logits, labels.float())
+            out = (loss,) + out
+
+        return out
 
 
 
