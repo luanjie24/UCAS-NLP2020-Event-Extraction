@@ -4,6 +4,7 @@ import os, sys
 class Config:
     os.chdir(sys.path[0])# 这句话时防止相对路径在VSCode里用不了
 
+
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu') # 看有没有gpu(cuda)，没有就用cpu
 
     # 数据集的路径 
