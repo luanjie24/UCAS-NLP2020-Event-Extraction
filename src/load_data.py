@@ -48,110 +48,189 @@ class CorpusData:
         return labels
 
 
-    #将每一句转成数字（大于126做截断，小于126做PADDING，加上首尾两个标识，长度总共等于128）
-    @staticmethod
-    def convert_text_to_token(tokenizer, sentence, limit_size=Config.sequence_length):
 
-        tokens = tokenizer.encode(sentence[:limit_size])  #直接截断
-        if len(tokens) < limit_size + 2:                  #补齐（pad的索引号就是0）
-            tokens.extend([0] * (limit_size + 2 - len(tokens)))
-        return tokens
+
+
+        #将每一句转成数字（大于126做截断，小于126做PADDING，加上首尾两个标识，长度总共等于128）
+        # 参考 Transformer 的 encode_plus 文档
+        #https://huggingface.co/transformers/internal/tokenization_utils.html#transformers.tokenization_utils_base.PreTrainedTokenizerBase.encode_plus
 
     @staticmethod
-    def convert_triggers_to_ndarray(triggers:list,sequence_length=Config.sequence_length)->np.ndarray:
-        def convert_triggers_to_numpy(triggers,sequence_length):
-            triggers_matrix = np.zeros([len(triggers),sequence_length],dtype=np.int8)
-            sentence_index = 0
-            for one_sentence_all_triggers in triggers:
-                for trigger in one_sentence_all_triggers:
-                    cur_index_start = trigger[1]
-                    cur_index_end = trigger[1] + len(trigger[0])
-                    triggers_matrix[sentence_index][cur_index_start:cur_index_end] = 1
-                sentence_index += 1
-            return triggers_matrix
-
-        triggers_tensor = torch.from_numpy(convert_triggers_to_numpy(triggers,sequence_length))
-        return triggers_tensor
-
-
-
-        
-    @staticmethod
-    def convert_text_to_token_ndarray(tokenizer, all_sentences:list, limit_size = Config.sequence_length)->np.ndarray:
+    def convert_text_to_token_ndarray(tokenizer, all_sentences:list, limit_size = Config.sequence_length)->(np.ndarray,np.ndarray):
         sentences_size = len(all_sentences)
         all_sentences_tokens = np.zeros([sentences_size,limit_size],dtype=np.int32)
-
+        all_sentences_attention_masks = np.zeros([sentences_size,limit_size],dtype=np.int32)
+      
         for i in range(sentences_size):
-            cur_token:list = tokenizer.encode(all_sentences[i][:(limit_size-2)])  #直接截断
-            if len(cur_token) < limit_size:                  #补齐（pad的索引号就是0）
-                cur_token.extend([0] * (limit_size - len(cur_token)))
-            all_sentences_tokens[i] = cur_token
-        return (all_sentences_tokens)
+            cur_token = tokenizer.encode_plus(all_sentences[i],padding='max_length',truncation=True,max_length=Config.sequence_length)
+            all_sentences_tokens[i] = cur_token['input_ids']
+            all_sentences_attention_masks[i] = cur_token['attention_mask'] 
+        
+        return all_sentences_tokens,all_sentences_attention_masks
 
 
-
+    # 把所有触发词，映射到tokens，目的是忽略坐标
     @staticmethod
-    #建立attention mask，PAD = 0，即input_all_sentences_ids 中的，非0值置为1
-    def convert_tokens_to_attention_masks_ndarray(all_sentences_tokens:np.ndarray)->np.ndarray:
-        #atten_masks_all_sentences = all_sentences_tokens.copy()
-        atten_masks_all_sentences = np.where(all_sentences_tokens != 0, 1, 0)
-        #atten_masks_all_sentences_tensor = torch.from_numpy(atten_masks_all_sentences)
-        return atten_masks_all_sentences
+    def convert_labels_to_tokens(tokenizer,labels:list)->list:
+        all_sentences_lables = []
+        for one_sentence_labels in labels: # one_sentence_labels example :[['找到', 21], ['接受', 63]]
+            cur_sentence_labels = []
+            for one_label in one_sentence_labels:# one label example : ['找到', 21] is a LIST!!!!!
+                one_label = tokenizer.encode(one_label[0],add_special_tokens=False)
+                cur_sentence_labels.append(one_label)
+            all_sentences_lables.append(cur_sentence_labels)
+        return all_sentences_lables
 
 
+
+    # 把所有触发词的位置在 encode 之后的句子中定位到，并打标签
+    @staticmethod
+    def convert_labels_to_mask_ndarray(tokenizer,all_sentences_labels:list,all_sentences_tokens:np.ndarray)->np.ndarray:
+        def rolling_window(a, size):
+            shape = a.shape[:-1] + (a.shape[-1] - size + 1, size)
+            strides = a.strides + (a. strides[-1],)
+            return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
+
+        all_lables_tokens:list = CorpusData.convert_labels_to_tokens(tokenizer,all_sentences_labels)
+        
+        # 创建 标签掩码矩阵
+        all_lables_mask:np.ndarray = np.zeros(all_sentences_tokens.shape,dtype=np.int8)
+        # 根据lables 在  all_sentences_tokens 中进行匹配
+        #for one_sentence_labels_tokens in all_lables_tokens:
+        
+        sentences_size = len(all_lables_tokens)
+        for idx in range(sentences_size):
+            cur_sentence_lables = all_lables_tokens[idx]
+            for cur_lable in cur_sentence_lables:
+                cur_label_len = len(cur_lable)
+                cur_label_ndarray = np.array(cur_lable)
+                label_is_exist = np.all(rolling_window(all_sentences_tokens[idx],cur_label_len) == cur_label_ndarray,axis=1)
+                label_index_tuple = np.where(label_is_exist == True)
+                label_index = label_index_tuple[0][0]
+                all_lables_mask[idx][label_index:label_index+cur_label_len] = 1
+
+       
+        return all_lables_mask
+        #return triggers_tensor
+    
+
+
+    ## 调用这个函数！！！
+    # 读取数据的完整函数！！！！
+    @staticmethod
+    def load_corpus_data(file_name:str='', load_data_from_cache:bool = False, cached_file_name:str='')->dict:
+
+        # 从数据文件中直接读取多个数组
+        if load_data_from_cache:
+            cached_file_name = cached_file_name+'.npy'
+            corpus_data = np.load(cached_file_name,allow_pickle=True)
+            print("数据加载完毕")
+            return corpus_data
+        # 从Json FILE中读取数组
+        else:
+            data_set_json = CorpusData.load_json_file(dev_data_path)
+            # 读入所有语料中的句子
+            sentences = CorpusData.json_list_extract_corpus_text(data_set_json)
+            # 读入所有触发词，每句话可能有多个触发词
+            triggers_word_and_id = CorpusData.json_list_extract_corpus_lable(data_set_json,'trigger')
+            # 将句子和触发词转换为 token，同时创建Attention mask
+
+            tokenizer = BertTokenizer.from_pretrained("hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
+            model = BertModel.from_pretrained("hfl/chinese-roberta-wwm-ext")
+            all_sentences_tokens,all_sentences_attention_masks = CorpusData.convert_text_to_token_ndarray(tokenizer,sentences)
+
+            # 创建触发词标签mask
+            all_sentences_triggers_labels = CorpusData.convert_labels_to_mask_ndarray(tokenizer,triggers_word_and_id,all_sentences_tokens)
+
+            corpus_data={'input_ids':all_sentences_tokens,'attention_masks':all_sentences_attention_masks,'trigger_lables':all_sentences_triggers_labels}
+            return corpus_data
+
+    # https://numpy.org/doc/stable/reference/generated/numpy.load.html
+    # 必须指明 allow_pickle = True
+    @staticmethod
+    def save_corpus_data(all_corpus_data:dict,output_file_name:str):
+        np.save(output_file_name,all_corpus_data,allow_pickle=True)
+        print("数据储存完毕")
+        return
         
 
 
 
 
 def test_bert_model(sentences):
-    random.seed(SEED)
-    np.random.seed(SEED)
-    torch.manual_seed(SEED)
-
-    tokenizer = BertTokenizer.from_pretrained("hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
-    model = BertModel.from_pretrained("hfl/chinese-roberta-wwm-ext")
-    
-    test_sentence = sentences[3]
-    print(test_sentence)
-    print(tokenizer.tokenize(test_sentence))
-    print(tokenizer.encode(test_sentence))
-    print(tokenizer.convert_ids_to_tokens(tokenizer.encode(test_sentence)))
-    print(0)
-    input_ids = [CorpusData.convert_text_to_token(tokenizer, sen) for sen in sentences]
-    input_tokens = torch.tensor(input_ids)
-    print(input_tokens.shape)                    #torch.Size([10000, 128])
-
-
-
-
-if __name__ == "__main__":
-    # execute only if run as a script
     
     dev_data_path = '../dataset/xf_2020_data/preliminary/raw_data/dev.json'
     dev_set = CorpusData.load_json_file(dev_data_path)
     sentences = CorpusData.json_list_extract_corpus_text(dev_set)
-    #print(setence)
+    print(sentences[0])
 
     
     triggers_word_and_id = CorpusData.json_list_extract_corpus_lable(dev_set,'trigger')
-    print(triggers_word_and_id)
+    # print(triggers_word_and_id)
 
-    trigger_tensor = CorpusData.convert_triggers_to_tensor(triggers_word_and_id)
-    print(trigger_tensor)
+    # trigger_tensor = CorpusData.convert_triggers_to_tensor(triggers_word_and_id)
+    # print(trigger_tensor)
 
     tokenizer = BertTokenizer.from_pretrained("hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
     model = BertModel.from_pretrained("hfl/chinese-roberta-wwm-ext")
 
-    all_sentences_tokens = CorpusData.convert_text_to_token_ndarray(tokenizer,sentences);
+    all_sentences_tokens,all_sentences_attention_masks = CorpusData.convert_text_to_token_ndarray(tokenizer,sentences);
     print(all_sentences_tokens[0])
-    all_sentences_attention_masks = CorpusData.convert_tokens_to_attention_masks_ndarray(all_sentences_tokens);
+    # all_sentences_attention_masks = CorpusData.convert_tokens_to_attention_masks_ndarray(all_sentences_tokens);
     print(all_sentences_attention_masks[0])
 
 
+    all_sentences_labels_token = CorpusData.convert_labels_to_tokens(tokenizer,triggers_word_and_id)
+    print(all_sentences_labels_token[0])
+
+    all_sentences_triggers_mask = CorpusData.convert_labels_to_mask_ndarray(tokenizer,triggers_word_and_id,all_sentences_tokens)
+    print(all_sentences_triggers_mask[0])
+
+
+    np.save("test.npy",all_sentences_attention_masks)
 #output
 #     据日本共同社报道，日本东京都知事小池百合子在4月3日的记者会上，公布了中央政府基于“新冠病毒特措法”发布紧急事态宣言时的应对方针
 # ['据', '日', '本', '共', '同', '社', '报', '道', '，', '日', '本', '东', '京', '都', '知', '事', '小', '池', '百', '合', '子', '在', '4', '月', '3', '日', '的', '记', '者', '会', '上', '，', '公', '布', '了', '中', '央', '政', '府', '基', '于', '[UNK]', '新', '冠', '病', '毒', '特', '措', '法', '[UNK]', '发', '布', '紧', '急', '事', '态', '宣', '言', '时', '的', '应', '对', '方', '针']
 # [101, 2945, 3189, 3315, 1066, 1398, 4852, 2845, 6887, 8024, 3189, 3315, 691, 776, 6963, 4761, 752, 2207, 3737, 4636, 1394, 2094, 1762, 125, 3299, 124, 3189, 4638, 6381, 5442, 833, 677, 8024, 1062, 2357, 749, 704, 1925, 3124, 2424, 1825, 754, 100, 3173, 1094, 4567, 3681, 4294, 2974, 3791, 100, 1355, 2357, 5165, 2593, 752, 2578, 2146, 6241, 3198, 4638, 2418, 2190, 3175, 7151, 102]
 # ['[CLS]', '据', '日', '本', '共', '同', '社', '报', '道', '，', '日', '本', '东', '京', '都', '知', '事', '小', '池', '百', '合', '子', '在', '4', '月', '3', '日', '的', '记', '者', '会', '上', '，', '公', '布', '了', '中', '央', '政', '府', '基', '于', '[UNK]', '新', '冠', '病', '毒', '特', '措', '法', '[UNK]', '发', '布', '紧', '急', '事', '态', '宣', '言', '时', '的', '应', '对', '方', '针', '[SEP]']
 # 0
+
+
+
+if __name__ == "__main__":
+
+    # 这里的 main 函数仅作测试用，具体参数变量参考 Config 文件
+    dev_data_path = '../dataset/xf_2020_data/preliminary/raw_data/dev.json'
+    corpus_data = CorpusData.load_corpus_data(dev_data_path)
+
+    #save data
+    CorpusData.save_corpus_data(corpus_data,'../saved_model/dev_data')
+
+    # 加载数据的时候，默认使用 .npy 后缀名！
+    corpus_data_from_cached =CorpusData.load_corpus_data(load_data_from_cache=True,cached_file_name='../saved_model/dev_data')
+
+
+#     {'input_ids': array([[ 101,  100,  125, ...,    0,    0,    0],
+#         [ 101, 1762, 3634, ...,    0,    0,    0],
+#         [ 101, 2190,  754, ...,    0,    0,    0],
+#         ...,
+#         [ 101, 9093, 2399, ...,    0,    0,    0],
+#         [ 101, 1094, 4495, ...,    0,    0,    0],
+#         [ 101,  100, 8020, ...,    0,    0,    0]], dtype=int32),
+#  'attention_masks': array([[1, 1, 1, ..., 0, 0, 0],
+#         [1, 1, 1, ..., 0, 0, 0],
+#         [1, 1, 1, ..., 0, 0, 0],
+#         ...,
+#         [1, 1, 1, ..., 0, 0, 0],
+#         [1, 1, 1, ..., 0, 0, 0],
+#         [1, 1, 1, ..., 0, 0, 0]], dtype=int32),
+#  'trigger_lables': array([[0, 0, 0, ..., 0, 0, 0],
+#         [0, 0, 0, ..., 0, 0, 0],
+#         [0, 0, 0, ..., 0, 0, 0],
+#         ...,
+#         [0, 0, 0, ..., 0, 0, 0],
+#         [0, 0, 0, ..., 0, 0, 0],
+#         [0, 0, 0, ..., 0, 0, 0]], dtype=int8)}
+
+
+
