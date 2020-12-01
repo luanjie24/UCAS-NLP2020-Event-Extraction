@@ -90,9 +90,9 @@ class CorpusData:
         all_lables_tokens: list = CorpusData.convert_labels_to_tokens(
             tokenizer, all_sentences_labels)
 
-        # 创建 标签掩码矩阵
+        # 创建 标签掩码矩阵 shape:(样本总个数, Config.sequence_length, 2)
         all_lables_mask: np.ndarray = np.zeros(
-            all_sentences_tokens.shape, dtype=np.int8)
+            (all_sentences_tokens.shape[0],all_sentences_tokens.shape[1],2), dtype=np.int8)
         # 根据lables 在  all_sentences_tokens 中进行匹配
         sentences_size = len(all_lables_tokens)
         for idx in range(sentences_size):
@@ -104,7 +104,10 @@ class CorpusData:
                     all_sentences_tokens[idx], cur_label_len) == cur_label_ndarray, axis=1)
                 label_index_tuple = np.where(label_is_exist == True)
                 label_index = label_index_tuple[0][0]
-                all_lables_mask[idx][label_index:label_index+cur_label_len] = 1
+                
+                # 每个字有两个值，第一个值代表这个字是不是trigger的start，第二个值代表这个字是不是trigger的end
+                all_lables_mask[idx][label_index][0] = 1
+                all_lables_mask[idx][label_index+cur_label_len-1][1] = 1
 
         return all_lables_mask
         # return triggers_tensor
@@ -230,7 +233,7 @@ if __name__ == "__main__":
         load_data_from_cache=True, cached_file_name='../saved_model/dev_data')
 
 
-#     {'input_ids': array([[ 101,  100,  125, ...,    0,    0,    0],
+# {'input_ids': array([[ 101,  100,  125, ...,    0,    0,    0],
 #         [ 101, 1762, 3634, ...,    0,    0,    0],
 #         [ 101, 2190,  754, ...,    0,    0,    0],
 #         ...,
@@ -244,10 +247,31 @@ if __name__ == "__main__":
 #         [1, 1, 1, ..., 0, 0, 0],
 #         [1, 1, 1, ..., 0, 0, 0],
 #         [1, 1, 1, ..., 0, 0, 0]], dtype=int32),
-#  'trigger_lables': array([[0, 0, 0, ..., 0, 0, 0],
-#         [0, 0, 0, ..., 0, 0, 0],
-#         [0, 0, 0, ..., 0, 0, 0],
-#         ...,
-#         [0, 0, 0, ..., 0, 0, 0],
-#         [0, 0, 0, ..., 0, 0, 0],
-#         [0, 0, 0, ..., 0, 0, 0]], dtype=int8)}
+#  'trigger_labels': array([[[0, 0],
+#          [0, 0],
+#          [0, 0],
+#          ...,
+#          [0, 0],
+#          [0, 0],
+#          [0, 0]],
+
+#         [[0, 0],
+#          [0, 0],
+#          [0, 0],
+#          ...,
+#          [0, 0],
+#          [0, 0],
+#          [0, 0]]], dtype=int8),
+#  'object_labels': array([[[0, 0],
+#          [0, 0],
+#            ...
+#          [0, 0],
+#          [0, 0]]], dtype=int8),
+#  'subject_labels': array([[[0, 0],
+#          [0, 0],
+#          [0, 0],
+#          ...,
+#          
+#          [0, 0],
+#          [0, 0],
+#          [0, 0]]], dtype=int8)}
