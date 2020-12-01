@@ -19,7 +19,7 @@ class CorpusData:
     # 按行读入 json，原数据集有误，每行json之间应该加逗号
     @staticmethod
     def load_json_file(file_path) -> list:
-        f = open(file_path, 'r')
+        f = open(file_path, 'rb')
         result = []
         for line in f:
             result.append(json.loads(line))
@@ -125,7 +125,7 @@ class CorpusData:
             return corpus_data
         # 从Json FILE中读取数组
         else:
-            data_set_json = CorpusData.load_json_file(dev_data_path)
+            data_set_json = CorpusData.load_json_file(file_name)
             # 读入所有语料中的句子
             sentences = CorpusData.json_list_extract_corpus_text(data_set_json)
 

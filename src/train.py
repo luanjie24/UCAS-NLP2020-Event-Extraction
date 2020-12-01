@@ -3,17 +3,26 @@ train.py用于训练集的训练
 
 """
 
+import os
 import logging
+from logging import handlers
 import torch
 from torch.utils.data import DataLoader, RandomSampler, TensorDataset
 from config import Config
 from model import TriggerExtractor
 from transformers import AdamW, get_linear_schedule_with_warmup
+from load_data import CorpusData
 
 
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# 将训练日志输出到控制台和文件
+logger=logging.getLogger("train_info")
+logger.setLevel(level=logging.DEBUG)
+file_handler=handlers.TimedRotatingFileHandler(filename = Config.saved_log_dir, when = "H") # 输出周期日志文件
+file_handler.setLevel(level=logging.INFO)
+stream_handler=logging.StreamHandler() # 输出到控制台
+stream_handler.setLevel(level=logging.DEBUG)
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
 
 def build_optimizer_and_scheduler(model, t_total):
 
@@ -62,6 +71,20 @@ def build_optimizer_and_scheduler(model, t_total):
     return optimizer, scheduler
 
 
+def save_model(model, global_step, saved_dir):
+    output_dir = os.path.join(saved_dir, 'checkpoint-{}'.format(global_step))
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+
+    # take care of model distributed / parallel training
+    model_to_save = (
+        model.module if hasattr(model, "module") else model
+    )
+    logger.info(f'Saving model & optimizer & scheduler checkpoint to {output_dir}')
+    torch.save(model_to_save.state_dict(), os.path.join(output_dir, 'model.pt'))
+
+
+
 def train(model, train_dataset):
     # 这个train_dataset目前是传样本和label，也可以改成只传样本
     train_sampler = RandomSampler(train_dataset) # 打乱顺序，sampler为取样本的策略，功能应该和shuffle差不多
@@ -71,9 +94,10 @@ def train(model, train_dataset):
                               num_workers=0) # 这块开线程会报错
 
     # 测试，查看一下train_dataloader的内容，之后有了mask就变成or i, (train, mask,label) in enumerate(train_loader)
-    # for i, (train, label) in enumerate(train_loader):
+    # for i, (train, train_mask, label) in enumerate(train_loader):
     #     print(train.shape, label.shape)
     #     print(train) # 对于trigger_extractor，输出的是一个tensor shape(Config.train_batch_size，sequence_length)
+    #     print(train_mask) # 对于trigger_extractor，输出的是一个tensor shape(Config.train_batch_size，sequence_length)
     #     print(label) # 对于trigger_extractor，输出的是一个tensor shape(Config.train_batch_size，sequence_length，2) 2是每个字两个值
     #     break
     # print('len(train_loader)=', len(train_loader))
@@ -96,7 +120,7 @@ def train(model, train_dataset):
     eval_steps = save_steps # 每eval_steps算一次准确率，没实现
     #==================
     # 训练
-    logger.info("***** Running training *****")
+    logger.info("********** Running training **********")
     logger.info(f"  Num Examples = {len(train_dataset)}")
     logger.info(f"  Num Epochs = {Config.train_epochs}")
     logger.info(f"  Total training batch size = {Config.train_batch_size}")
@@ -105,15 +129,15 @@ def train(model, train_dataset):
     
     for epoch in range(Config.train_epochs):
         # 之后有了mask就变成for i, (train, mask,label) in enumerate(train_loader)
-        for step, (batch_train_data, batch_train_label) in enumerate(train_loader):
+        for step, (batch_train_data, batch_train_mask, batch_train_label) in enumerate(train_loader):
             
             # 数据运算迁移到GPU
-            batch_train_data, batch_train_label = batch_train_data.to(Config.device), batch_train_label.to(Config.device)
+            batch_train_data, batch_train_mask, batch_train_label = batch_train_data.to(Config.device), batch_train_mask.to(Config.device), batch_train_label.to(Config.device)
 
             # 改成batch_size个句子都训练
             model.train()
 
-            output_tensor=model(batch_train_data, labels=batch_train_label)
+            output_tensor=model(batch_train_data, attention_mask = batch_train_mask, labels = batch_train_label)
 
             # 如果是trigger_extractor输出是这个格式，其他模型还得看看能不能设计成这个格式
             loss, logits = output_tensor[0], output_tensor[1]
@@ -136,9 +160,9 @@ def train(model, train_dataset):
             else:
                 avg_loss += loss.item() 
 
-            # 每save_steps存一次模型 save_model还没写
-            # if global_step % save_steps == 0:
-            #     save_model(opt, model, global_step)
+            # 每save_steps存一次模型
+            if global_step % save_steps == 0:
+                save_model(model, global_step, Config.saved_trigger_extractor_dir)
 
     # 释放显存
     torch.cuda.empty_cache()
@@ -150,7 +174,8 @@ def train(model, train_dataset):
 
 if __name__ == '__main__':
  
-    # 读取数据并进行预处理，load_data建议写成一个类（也就是以下内容都应该在load_data.py或者data_converter.py的类里以供这里调用）
+    '''
+    # 读取数据并进行预处理的测试（等价于load_data里的操作）
     # 这里先拿2句话当作输入做测试，即batch_size=2，padding和mask这里先不做，但最终预处理的时候需要包含
     test_samples1 = '昨天清华着火了！'
     test_samples2 = '清华大学真厉害。'
@@ -167,32 +192,29 @@ if __name__ == '__main__':
     input_ids.append(tokenizer.encode(test_samples1))
     input_ids.append(tokenizer.encode(test_samples2))
     input_tensor=torch.LongTensor(input_ids).cuda()
-
     # print(input_tensor.shape)
     # print(samples_y.shape) 
 
-    # attention_mask用于指定对哪些词进行self-Attention操作，
-    # 避免在padding的token上计算attention（1不进行masked，0则masked）。形状为(Config.batch_size, sequence_length)。
-    # 如果不设置则BertModel默认全为1
-    # batch_mask = torch.ones_like(input_tensor) 
-
-    # 对于触发词识别，打包数据集形成DataLoader需求的dataset，有了mask再放进去
-    # train_dataset = TensorDataset(input_tensor, train_masks, samples_y)
-    train_dataset = TensorDataset(input_tensor, samples_y)
-
-
-
+    '''
+    #==================
+    # 拿到训练数据集
+    corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
+    # numpy转tensor
+    input_tensor = torch.from_numpy(corpus_data["input_ids"]).long() 
+    train_masks = torch.from_numpy(corpus_data["attention_masks"]).long() 
+    samples_y = torch.from_numpy(corpus_data["trigger_labels"]).long() 
+    # 对于触发词识别，打包数据集形成DataLoader需求的dataset去
+    train_dataset = TensorDataset(input_tensor, train_masks, samples_y)
 
     #==================
     # 初始化模型
     trigger_extractor = TriggerExtractor() 
     trigger_extractor.to(Config.device)
 
-    # # 这里前向传播一次测试效果 这里应该再加一个attention_mask，目前为attention_mask=None
-    # output_tensor=trigger_extractor(input_tensor, labels=test_labels[0])
+    # 测试，前向传播一次
+    # output_tensor=trigger_extractor(input_tensor, train_masks, labels=test_labels[0])
     # # print(output_tensor.shape)
     # print(output_tensor) # 如果有label，返回的是两个元素的元组，第一个元素是损失的张量，第二个元素是前向传播的y
-
 
     train(trigger_extractor, train_dataset)
 
