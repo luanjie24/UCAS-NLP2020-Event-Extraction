@@ -76,8 +76,9 @@ class CorpusData:
         for one_sentence_labels in labels: # one_sentence_labels example :[['找到', 21], ['接受', 63]]
             cur_sentence_labels = []
             for one_label in one_sentence_labels:# one label example : ['找到', 21] is a LIST!!!!!
-                one_label = tokenizer.encode(one_label[0],add_special_tokens=False)
-                cur_sentence_labels.append(one_label)
+                if one_label: # 标签有可能为空
+                    one_label = tokenizer.encode(one_label[0],add_special_tokens=False)
+                    cur_sentence_labels.append(one_label)
             all_sentences_lables.append(cur_sentence_labels)
         return all_sentences_lables
 
@@ -116,7 +117,7 @@ class CorpusData:
 
 
     ## 调用这个函数！！！
-    # 读取数据的完整函数！！！！
+    # 读取数据的完整函数！！！！返回一个 dict, {'input_ids': 输入词对应token id，'attention_masks': }
     @staticmethod
     def load_corpus_data(file_name:str='', load_data_from_cache:bool = False, cached_file_name:str='')->dict:
 
@@ -131,18 +132,41 @@ class CorpusData:
             data_set_json = CorpusData.load_json_file(dev_data_path)
             # 读入所有语料中的句子
             sentences = CorpusData.json_list_extract_corpus_text(data_set_json)
-            # 读入所有触发词，每句话可能有多个触发词
-            triggers_word_and_id = CorpusData.json_list_extract_corpus_lable(data_set_json,'trigger')
-            # 将句子和触发词转换为 token，同时创建Attention mask
 
             tokenizer = BertTokenizer.from_pretrained("hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
-            model = BertModel.from_pretrained("hfl/chinese-roberta-wwm-ext")
+
+             # 将句子转换为 token，同时创建Attention mask
             all_sentences_tokens,all_sentences_attention_masks = CorpusData.convert_text_to_token_ndarray(tokenizer,sentences)
 
-            # 创建触发词标签mask
-            all_sentences_triggers_labels = CorpusData.convert_labels_to_mask_ndarray(tokenizer,triggers_word_and_id,all_sentences_tokens)
+            # 以下生成标签
 
-            corpus_data={'input_ids':all_sentences_tokens,'attention_masks':all_sentences_attention_masks,'trigger_lables':all_sentences_triggers_labels}
+            # 读入所有触发词，每句话可能有多个触发词
+            triggers_word_and_index = CorpusData.json_list_extract_corpus_lable(data_set_json,'trigger')
+           
+            # 创建触发词标签mask
+            all_sentences_triggers_labels = CorpusData.convert_labels_to_mask_ndarray(tokenizer,triggers_word_and_index,all_sentences_tokens)
+
+
+            # 读入所有 Object
+             # 读入所有Object 主语，每句话可能有多个触发词
+            object_word_and_index = CorpusData.json_list_extract_corpus_lable(data_set_json,'object')
+           
+            # 创建主语标签mask
+            all_sentences_objects_labels = CorpusData.convert_labels_to_mask_ndarray(tokenizer,object_word_and_index,all_sentences_tokens)
+
+
+            # 读入所有 Subject
+            subject_word_and_index = CorpusData.json_list_extract_corpus_lable(data_set_json,'subject')
+            # 创建Subject 宾语标签mask
+            all_sentences_subjects_labels = CorpusData.convert_labels_to_mask_ndarray(tokenizer,subject_word_and_index,all_sentences_tokens)
+
+
+
+
+
+            corpus_data={'input_ids':all_sentences_tokens,'attention_masks':all_sentences_attention_masks,
+                        'trigger_labels':all_sentences_triggers_labels,'object_labels':all_sentences_objects_labels,
+                        'subject_labels':all_sentences_subjects_labels}
             return corpus_data
 
     # https://numpy.org/doc/stable/reference/generated/numpy.load.html

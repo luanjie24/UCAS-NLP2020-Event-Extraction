@@ -1,6 +1,6 @@
 
 reference_project/2020-IFLYTEK.AI-Event-Extraction-Challenge
-
+*.npy
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
