@@ -9,7 +9,7 @@ from logging import handlers
 import torch
 from torch.utils.data import DataLoader, RandomSampler, TensorDataset
 from config import Config
-from model import TriggerExtractor, SubObjExtractor
+from model import TriggerExtractor, SubObjExtractor, TimeLocExtractor
 from transformers import AdamW, get_linear_schedule_with_warmup
 from load_data import CorpusData
 
@@ -90,7 +90,7 @@ def train(model, train_dataset, save_model_dir):
     train_loader = DataLoader(dataset=train_dataset,
                               batch_size=Config.train_batch_size,
                               sampler=train_sampler,
-                              num_workers=0) # 这块开线程会报错
+                              num_workers=Config.num_workers)
 
     # 测试，查看一下train_dataloader的内容
     # print('len(train_loader)=', len(train_loader))
@@ -129,11 +129,8 @@ def train(model, train_dataset, save_model_dir):
 
             model.train()
 
-            output_tensor=model(*batch_data) # 这么写是解压参数列表
+            loss = model(*batch_data)[0] # 这么写是解压参数列表
 
-            # 所有模型的输出都是这个格式
-            loss, logits = output_tensor[0], output_tensor[1]
-            
             # 每个batch更新权重的一些必要操作
             # 总得来说，先将梯度归零，然后反向传播计算得到每个参数的梯度值，最后通过梯度下降执行一步参数更新
             model.zero_grad() # 梯度清零
@@ -165,7 +162,8 @@ def train(model, train_dataset, save_model_dir):
 
 
 if __name__ == '__main__':
- 
+
+    '''
     # ======================预处理数据生成（仅测试用）=======================
     # 读取数据并进行预处理的测试（等价于load_data里的操作）
     # 这里先拿2句话当作输入做测试，即batch_size=2
@@ -200,17 +198,36 @@ if __name__ == '__main__':
     # 主体客体识别模型测试样例的trigger_distance，这个先不做了
     # trigger_distance=torch.LongTensor([[5,4,3,2,1,0,0,1,2,3],[3,2,1,0,0,1,2,3,4,5]]).cuda()
 
-
+    # 时间地点识别模型测试样例的label。shape:（Config.train_batch_size, Config.sequence_length）
+    # (B-begin，I-inside，O-outside，E-end，S-single)
+    # TIME_LOC_TO_ID = {
+    # "O": 0,
+    # "B-time": 1,
+    # "I-time": 2,
+    # "E-time": 3,
+    # "S-time": 4,
+    # "B-loc": 5,
+    # "I-loc": 6,
+    # "E-loc": 7,
+    # "S-loc": 8,
+    # "X": 9 # 这个好像是因为要随机丢弃70%负样本才定义的，暂时不考虑了吧
+    # }
+    time_loc_labels = torch.tensor([[0,1,2,5,7,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0]]).cuda()
+    
     '''
+
+
+    
     # ===============拿到预处理后的数据并转tensor================
     corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
     input_ids = torch.from_numpy(corpus_data["input_ids"]).long() 
     attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long() 
     trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long() 
-    '''
+    
 
 
- '''   
+     
     #==================trigger_extractor==================
     # 数据集打包
     train_dataset = TensorDataset(input_ids, attention_masks, trigger_labels)
@@ -222,9 +239,9 @@ if __name__ == '__main__':
     # print(output_tensor)
     # 训练
     train(trigger_extractor, train_dataset, Config.saved_trigger_extractor_dir)
+    
+
     '''
-
-
     #==================sub_obj_extractor==================
     # 数据集打包
     train_dataset = TensorDataset(input_ids, trigger_index, attention_masks, sub_obj_labels)
@@ -234,13 +251,27 @@ if __name__ == '__main__':
     sub_obj_extractor.to(Config.device)
 
     # 测试，前向传播一次
-    # output=sub_obj_extractor(input_ids, trigger_index, attention_masks, labels=sub_obj_labels)
+    # output=sub_obj_extractor(input_ids, trigger_index, attention_masks, labels = sub_obj_labels)
     # print(output)
 
     train(sub_obj_extractor, train_dataset, Config.saved_sub_obj_extractor_dir)
+    '''
 
+    '''
+    #==================time_loc_extractor==================
+    # 数据集打包
+    train_dataset = TensorDataset(input_ids, trigger_index, attention_masks, time_loc_labels)
 
+    # 初始化模型
+    time_loc_extractor = TimeLocExtractor()
+    time_loc_extractor.to(Config.device)
 
+    # 测试，前向传播一次
+    # output = time_loc_extractor(input_ids, trigger_index, attention_masks, labels = time_loc_labels)
+    # print(output)
+
+    train(time_loc_extractor, train_dataset, Config.saved_time_loc_extractor_dir)
+    '''
 
     
 

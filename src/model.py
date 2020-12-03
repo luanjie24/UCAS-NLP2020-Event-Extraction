@@ -1,6 +1,7 @@
 import os
 import torch
 import torch.nn as nn
+from torchcrf import CRF
 from transformers import BertModel
 from config import Config
 
@@ -199,6 +200,91 @@ class SubObjExtractor(nn.Module):
             out = (loss,) + out
 
         return out
+
+    @staticmethod
+    def _batch_gather(data: torch.Tensor, index: torch.Tensor):
+        """
+        实现类似 tf.batch_gather 的效果
+        :param data: (bs, max_seq_len, hidden)
+        :param index: (bs, n)
+        :return: a tensor which shape is (bs, n, hidden)
+        """
+        index = index.unsqueeze(-1).repeat_interleave(data.size()[-1], dim=-1)  # (bs, n, hidden)
+        return torch.gather(data, 1, index)
+
+
+
+
+
+
+# time & loc 提取器 同样不考虑distant_trigger 这个模型损使用CRF，因为time & loc 样本数量很少，同时随机丢弃70%的负样本，使正负样本均衡
+class TimeLocExtractor(nn.Module):
+    def __init__(self):
+        super(TimeLocExtractor, self).__init__()
+
+        # BERT层
+        self.bert_model = BertModel.from_pretrained(Config.bert_dir)
+        self.bert_config = self.bert_model.config
+        for param in self.bert_model.parameters():
+            param.requires_grad = True # 微调时是否调BERT，True的话就调
+
+        # Conditional Layer Normalization层 layer_norm_eps没这个参数啊
+        self.conditional_layer_norm = ConditionalLayerNorm(self.bert_config.hidden_size, eps=self.bert_config.layer_norm_eps)
+
+        '''
+        融合trigger特征这一层先跳过
+        '''
+
+        # 线性层
+        self.mid_linear = nn.Sequential(
+            nn.Linear(self.bert_config.hidden_size, Config.sbj_obj_extractor_mid_linear_dims),
+            nn.ReLU(),
+            nn.Dropout(0.1)
+        )
+
+        # 分类器
+        self.classifier = nn.Linear(Config.time_loc_extractor_mid_linear_dims, 10)
+
+        # CRF分类器 batch_first为true据说能让模型速度更快
+        self.crf_module = CRF(num_tags=10, batch_first=True)
+
+
+
+    def forward(self, input_tensor, trigger_index, attention_mask,  labels=None):
+        # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
+        # embedding_output shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
+        embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask) 
+
+        # 将embedding融合trigger的特征
+        # trigger_index shape:(Config.train_batch_size, n) trigger_index应该是trigger第一个字和最后一个字在文本中的位置（n应该永远等于2）
+        trigger_label_feature = self._batch_gather(embedding_output, trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)
+        trigger_label_feature = trigger_label_feature.view([trigger_label_feature.size()[0], -1]) # shape (Config.train_batch_size, n*bert_hidden_size) 
+        # 放到Conditional Layer Normalization层
+        # trigger_index shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
+        seq_out = self.conditional_layer_norm(embedding_output, trigger_label_feature)
+
+        '''
+        融合trigger特征这一层先跳过
+        '''
+
+        seq_out = self.mid_linear(seq_out) # shape: (Config.train_batch_size, Config.sequence_length, Config.sbj_obj_extractor_mid_linear_dims)
+
+        
+        emissions = self.classifier(seq_out) # shape: (Config.train_batch_size, Config.sequence_length, 10) 
+        if labels is not None:
+            tokens_loss = -1. * self.crf_module(emissions=emissions,
+                                                tags=labels.long(),
+                                                mask=attention_mask.byte(),
+                                                reduction='mean')
+
+            out = (tokens_loss,)
+
+        else:
+            tokens_out = self.crf_module.decode(emissions=emissions, mask=attention_mask.byte())
+            out = (tokens_out,)
+
+        return out
+
 
     @staticmethod
     def _batch_gather(data: torch.Tensor, index: torch.Tensor):
