@@ -9,7 +9,7 @@ from logging import handlers
 import torch
 from torch.utils.data import DataLoader, RandomSampler, TensorDataset
 from config import Config
-from model import TriggerExtractor
+from model import TriggerExtractor, SubObjExtractor
 from transformers import AdamW, get_linear_schedule_with_warmup
 from load_data import CorpusData
 
@@ -85,30 +85,22 @@ def save_model(model, global_step, saved_dir):
 
 
 
-def train(model, train_dataset):
-    # 这个train_dataset目前是传样本和label，也可以改成只传样本
+def train(model, train_dataset, save_model_dir):
     train_sampler = RandomSampler(train_dataset) # 打乱顺序，sampler为取样本的策略，功能应该和shuffle差不多
     train_loader = DataLoader(dataset=train_dataset,
                               batch_size=Config.train_batch_size,
                               sampler=train_sampler,
                               num_workers=0) # 这块开线程会报错
 
-    # 测试，查看一下train_dataloader的内容，之后有了mask就变成or i, (train, mask,label) in enumerate(train_loader)
-    # for i, (train, train_mask, label) in enumerate(train_loader):
-    #     print(train.shape, label.shape)
-    #     print(train) # 对于trigger_extractor，输出的是一个tensor shape(Config.train_batch_size，sequence_length)
-    #     print(train_mask) # 对于trigger_extractor，输出的是一个tensor shape(Config.train_batch_size，sequence_length)
-    #     print(label) # 对于trigger_extractor，输出的是一个tensor shape(Config.train_batch_size，sequence_length，2) 2是每个字两个值
-    #     break
+    # 测试，查看一下train_dataloader的内容
     # print('len(train_loader)=', len(train_loader))
     # for step, batch_data in enumerate(train_loader):
     #     print("step:",step)
     #     print("batch_data:",batch_data)
-
     #==================
     # 定义优化器
-    t_total = len(train_loader) * Config.train_epochs # 定义总的更新轮数，len(train_loader)我觉得就是每个epoch更新学习率的次数
-    optimizer, scheduler = build_optimizer_and_scheduler(trigger_extractor, t_total)
+    t_total = len(train_loader) * Config.train_epochs # 定义总的更新轮数，len(train_loader)就是每个epoch更新学习率的次数
+    optimizer, scheduler = build_optimizer_and_scheduler(model, t_total)
 
     model.zero_grad()
 
@@ -128,18 +120,18 @@ def train(model, train_dataset):
     logger.info(f'Save model in {save_steps} steps; Eval model in {eval_steps} steps')
     
     for epoch in range(Config.train_epochs):
-        # 之后有了mask就变成for i, (train, mask,label) in enumerate(train_loader)
-        for step, (batch_train_data, batch_train_mask, batch_train_label) in enumerate(train_loader):
-            
-            # 数据运算迁移到GPU
-            batch_train_data, batch_train_mask, batch_train_label = batch_train_data.to(Config.device), batch_train_mask.to(Config.device), batch_train_label.to(Config.device)
 
-            # 改成batch_size个句子都训练
+        for step, batch_data in enumerate(train_loader):
+
+            # 数据运算迁移到GPU
+            for data in batch_data:
+                data = data.to(Config.device)
+
             model.train()
 
-            output_tensor=model(batch_train_data, attention_mask = batch_train_mask, labels = batch_train_label)
+            output_tensor=model(*batch_data) # 这么写是解压参数列表
 
-            # 如果是trigger_extractor输出是这个格式，其他模型还得看看能不能设计成这个格式
+            # 所有模型的输出都是这个格式
             loss, logits = output_tensor[0], output_tensor[1]
             
             # 每个batch更新权重的一些必要操作
@@ -162,7 +154,7 @@ def train(model, train_dataset):
 
             # 每save_steps存一次模型
             if global_step % save_steps == 0:
-                save_model(model, global_step, Config.saved_trigger_extractor_dir)
+                save_model(model, global_step, save_model_dir)
 
     # 释放显存
     torch.cuda.empty_cache()
@@ -174,49 +166,78 @@ def train(model, train_dataset):
 
 if __name__ == '__main__':
  
-    '''
+    # ======================预处理数据生成（仅测试用）=======================
     # 读取数据并进行预处理的测试（等价于load_data里的操作）
-    # 这里先拿2句话当作输入做测试，即batch_size=2，padding和mask这里先不做，但最终预处理的时候需要包含
+    # 这里先拿2句话当作输入做测试，即batch_size=2
     test_samples1 = '昨天清华着火了！'
-    test_samples2 = '清华大学真厉害。'
+    test_samples2 = '杰伦参加演唱会。'
 
-    # 触发词识别标签的测试样例               
-    samples_y = torch.tensor([[[0,0],[0,0],[0,0],[0,0],[0,0],[1,0],[0,1],[0,0],[0,0],[0,0]],
-                    [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]).cuda()
     from transformers import BertTokenizer
     tokenizer = BertTokenizer.from_pretrained(Config.bert_dir)
 
-    # input_ids就是一连串token在字典中的对应id。形状为(Config.batch_size, sequence_length)
-    # sequence_length一般用padding把每句话的长度统一，长度在config.py里定义了，可以直接调
+    # input_ids就是一连串token在字典中的对应id。shape：(Config.batch_size, Config.sequence_length)
     input_ids=[]
     input_ids.append(tokenizer.encode(test_samples1))
     input_ids.append(tokenizer.encode(test_samples2))
-    input_tensor=torch.LongTensor(input_ids).cuda()
-    # print(input_tensor.shape)
-    # print(samples_y.shape) 
+    input_ids=torch.LongTensor(input_ids).cuda()
+
+    # attention_masks是对padding部分进行mask，有字部分为1，padding部分为0。shape:(Config.batch_size, Config.sequence_length)
+    attention_masks=torch.LongTensor([[1,1,1,1,1,1,1,1,1,1],
+                    [1,1,1,1,1,1,1,1,1,1]]).cuda()
+
+    # 触发词提取模型测试样例的label。shape：(Config.batch_size, Config.sequence_length, 2)             
+    trigger_labels = torch.tensor([[[0,0],[0,0],[0,0],[0,0],[0,0],[1,0],[0,1],[0,0],[0,0],[0,0]],
+                    [[0,0],[0,0],[0,0],[1,0],[0,1],[0,0],[0,0],[0,0],[0,0],[0,0]]]).cuda()
+
+    # 主客体识别模型测试样例的label。shape:（Config.train_batch_size, Config.sequence_length, 4）
+    sub_obj_labels = torch.tensor([[[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,0,0,0],[0,2,0,0],[0,0,1,0],[0,0,0,1],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+                    [[0,0,0,0],[1,0,0,0],[0,1,0,0],[0,0,0,0],[0,0,0,0],[0,0,1,0],[0,0,0,0],[0,0,0,1],[0,0,0,0],[0,0,0,0]]]).cuda()
+
+    # 主体客体识别模型测试样例的trigger_index
+    # trigger_index shape:(Config.train_batch_size, n) trigger_index应该是trigger第一个字和最后一个字在文本中的位置（n应该永远等于2）
+    trigger_index=torch.LongTensor([[5, 6],[3,4]]).cuda()
+
+    # 主体客体识别模型测试样例的trigger_distance，这个先不做了
+    # trigger_distance=torch.LongTensor([[5,4,3,2,1,0,0,1,2,3],[3,2,1,0,0,1,2,3,4,5]]).cuda()
+
 
     '''
-    #==================
-    # 拿到训练数据集
+    # ===============拿到预处理后的数据并转tensor================
     corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
-    # numpy转tensor
-    input_tensor = torch.from_numpy(corpus_data["input_ids"]).long() 
-    train_masks = torch.from_numpy(corpus_data["attention_masks"]).long() 
-    samples_y = torch.from_numpy(corpus_data["trigger_labels"]).long() 
-    # 对于触发词识别，打包数据集形成DataLoader需求的dataset去
-    train_dataset = TensorDataset(input_tensor, train_masks, samples_y)
+    input_ids = torch.from_numpy(corpus_data["input_ids"]).long() 
+    attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long() 
+    trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long() 
+    '''
 
-    #==================
+
+ '''   
+    #==================trigger_extractor==================
+    # 数据集打包
+    train_dataset = TensorDataset(input_ids, attention_masks, trigger_labels)
     # 初始化模型
     trigger_extractor = TriggerExtractor() 
     trigger_extractor.to(Config.device)
+    # 测试，前向传播一次
+    # output_tensor=trigger_extractor(input_ids, attention_masks, labels=trigger_labels)
+    # print(output_tensor)
+    # 训练
+    train(trigger_extractor, train_dataset, Config.saved_trigger_extractor_dir)
+    '''
+
+
+    #==================sub_obj_extractor==================
+    # 数据集打包
+    train_dataset = TensorDataset(input_ids, trigger_index, attention_masks, sub_obj_labels)
+
+    # 初始化模型
+    sub_obj_extractor = SubObjExtractor()
+    sub_obj_extractor.to(Config.device)
 
     # 测试，前向传播一次
-    # output_tensor=trigger_extractor(input_tensor, train_masks, labels=test_labels[0])
-    # # print(output_tensor.shape)
-    # print(output_tensor) # 如果有label，返回的是两个元素的元组，第一个元素是损失的张量，第二个元素是前向传播的y
+    # output=sub_obj_extractor(input_ids, trigger_index, attention_masks, labels=sub_obj_labels)
+    # print(output)
 
-    train(trigger_extractor, train_dataset)
+    train(sub_obj_extractor, train_dataset, Config.saved_sub_obj_extractor_dir)
 
 
 
