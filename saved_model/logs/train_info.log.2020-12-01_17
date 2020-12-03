@@ -1,0 +1,467 @@
+********** Running training **********
+  Num Examples = 576
+  Num Epochs = 100
+  Total training batch size = 8
+  Total optimization steps = 7200
+Save model in 72 steps; Eval model in 72 steps
+Step: 20 / 7200 ----> total loss: 0.67215
+Step: 40 / 7200 ----> total loss: 0.65908
+Step: 60 / 7200 ----> total loss: 0.63627
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-72
+Step: 80 / 7200 ----> total loss: 0.60305
+Step: 100 / 7200 ----> total loss: 0.55288
+Step: 120 / 7200 ----> total loss: 0.48622
+Step: 140 / 7200 ----> total loss: 0.39358
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-144
+Step: 160 / 7200 ----> total loss: 0.28723
+Step: 180 / 7200 ----> total loss: 0.18136
+Step: 200 / 7200 ----> total loss: 0.11411
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-216
+Step: 220 / 7200 ----> total loss: 0.07961
+Step: 240 / 7200 ----> total loss: 0.06458
+Step: 260 / 7200 ----> total loss: 0.05625
+Step: 280 / 7200 ----> total loss: 0.05143
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-288
+Step: 300 / 7200 ----> total loss: 0.04914
+Step: 320 / 7200 ----> total loss: 0.04777
+Step: 340 / 7200 ----> total loss: 0.04480
+Step: 360 / 7200 ----> total loss: 0.04392
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-360
+Step: 380 / 7200 ----> total loss: 0.04183
+Step: 400 / 7200 ----> total loss: 0.04232
+Step: 420 / 7200 ----> total loss: 0.04106
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-432
+Step: 440 / 7200 ----> total loss: 0.03834
+Step: 460 / 7200 ----> total loss: 0.03843
+Step: 480 / 7200 ----> total loss: 0.03849
+Step: 500 / 7200 ----> total loss: 0.03700
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-504
+Step: 520 / 7200 ----> total loss: 0.03633
+Step: 540 / 7200 ----> total loss: 0.03414
+Step: 560 / 7200 ----> total loss: 0.03455
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-576
+Step: 580 / 7200 ----> total loss: 0.03455
+Step: 600 / 7200 ----> total loss: 0.03267
+Step: 620 / 7200 ----> total loss: 0.03147
+Step: 640 / 7200 ----> total loss: 0.02787
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-648
+Step: 660 / 7200 ----> total loss: 0.02528
+Step: 680 / 7200 ----> total loss: 0.02143
+Step: 700 / 7200 ----> total loss: 0.01971
+Step: 720 / 7200 ----> total loss: 0.01621
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-720
+Step: 740 / 7200 ----> total loss: 0.01555
+Step: 760 / 7200 ----> total loss: 0.01441
+Step: 780 / 7200 ----> total loss: 0.01323
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-792
+Step: 800 / 7200 ----> total loss: 0.01395
+Step: 820 / 7200 ----> total loss: 0.01084
+Step: 840 / 7200 ----> total loss: 0.01174
+Step: 860 / 7200 ----> total loss: 0.01094
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-864
+Step: 880 / 7200 ----> total loss: 0.00978
+Step: 900 / 7200 ----> total loss: 0.00902
+Step: 920 / 7200 ----> total loss: 0.00859
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-936
+Step: 940 / 7200 ----> total loss: 0.00820
+Step: 960 / 7200 ----> total loss: 0.00742
+Step: 980 / 7200 ----> total loss: 0.00772
+Step: 1000 / 7200 ----> total loss: 0.00710
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1008
+Step: 1020 / 7200 ----> total loss: 0.00587
+Step: 1040 / 7200 ----> total loss: 0.00590
+Step: 1060 / 7200 ----> total loss: 0.00599
+Step: 1080 / 7200 ----> total loss: 0.00640
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1080
+Step: 1100 / 7200 ----> total loss: 0.00582
+Step: 1120 / 7200 ----> total loss: 0.00495
+Step: 1140 / 7200 ----> total loss: 0.00451
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1152
+Step: 1160 / 7200 ----> total loss: 0.00497
+Step: 1180 / 7200 ----> total loss: 0.00437
+Step: 1200 / 7200 ----> total loss: 0.00428
+Step: 1220 / 7200 ----> total loss: 0.00462
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1224
+Step: 1240 / 7200 ----> total loss: 0.00366
+Step: 1260 / 7200 ----> total loss: 0.00368
+Step: 1280 / 7200 ----> total loss: 0.00339
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1296
+Step: 1300 / 7200 ----> total loss: 0.00398
+Step: 1320 / 7200 ----> total loss: 0.00346
+Step: 1340 / 7200 ----> total loss: 0.00309
+Step: 1360 / 7200 ----> total loss: 0.00298
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1368
+Step: 1380 / 7200 ----> total loss: 0.00343
+Step: 1400 / 7200 ----> total loss: 0.00247
+Step: 1420 / 7200 ----> total loss: 0.00296
+Step: 1440 / 7200 ----> total loss: 0.00359
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1440
+Step: 1460 / 7200 ----> total loss: 0.00306
+Step: 1480 / 7200 ----> total loss: 0.00229
+Step: 1500 / 7200 ----> total loss: 0.00245
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1512
+Step: 1520 / 7200 ----> total loss: 0.00301
+Step: 1540 / 7200 ----> total loss: 0.00312
+Step: 1560 / 7200 ----> total loss: 0.00228
+Step: 1580 / 7200 ----> total loss: 0.00229
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1584
+Step: 1600 / 7200 ----> total loss: 0.00205
+Step: 1620 / 7200 ----> total loss: 0.00260
+Step: 1640 / 7200 ----> total loss: 0.00223
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1656
+Step: 1660 / 7200 ----> total loss: 0.00195
+Step: 1680 / 7200 ----> total loss: 0.00221
+Step: 1700 / 7200 ----> total loss: 0.00246
+Step: 1720 / 7200 ----> total loss: 0.00182
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1728
+Step: 1740 / 7200 ----> total loss: 0.00165
+Step: 1760 / 7200 ----> total loss: 0.00166
+Step: 1780 / 7200 ----> total loss: 0.00192
+Step: 1800 / 7200 ----> total loss: 0.00176
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1800
+Step: 1820 / 7200 ----> total loss: 0.00149
+Step: 1840 / 7200 ----> total loss: 0.00197
+Step: 1860 / 7200 ----> total loss: 0.00158
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1872
+Step: 1880 / 7200 ----> total loss: 0.00125
+Step: 1900 / 7200 ----> total loss: 0.00148
+Step: 1920 / 7200 ----> total loss: 0.00191
+Step: 1940 / 7200 ----> total loss: 0.00174
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-1944
+Step: 1960 / 7200 ----> total loss: 0.00140
+Step: 1980 / 7200 ----> total loss: 0.00159
+Step: 2000 / 7200 ----> total loss: 0.00127
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2016
+Step: 2020 / 7200 ----> total loss: 0.00152
+Step: 2040 / 7200 ----> total loss: 0.00120
+Step: 2060 / 7200 ----> total loss: 0.00118
+Step: 2080 / 7200 ----> total loss: 0.00117
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2088
+Step: 2100 / 7200 ----> total loss: 0.00147
+Step: 2120 / 7200 ----> total loss: 0.00153
+Step: 2140 / 7200 ----> total loss: 0.00089
+Step: 2160 / 7200 ----> total loss: 0.00137
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2160
+Step: 2180 / 7200 ----> total loss: 0.00135
+Step: 2200 / 7200 ----> total loss: 0.00134
+Step: 2220 / 7200 ----> total loss: 0.00098
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2232
+Step: 2240 / 7200 ----> total loss: 0.00104
+Step: 2260 / 7200 ----> total loss: 0.00107
+Step: 2280 / 7200 ----> total loss: 0.00098
+Step: 2300 / 7200 ----> total loss: 0.00113
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2304
+Step: 2320 / 7200 ----> total loss: 0.00143
+Step: 2340 / 7200 ----> total loss: 0.00096
+Step: 2360 / 7200 ----> total loss: 0.00071
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2376
+Step: 2380 / 7200 ----> total loss: 0.00104
+Step: 2400 / 7200 ----> total loss: 0.00123
+Step: 2420 / 7200 ----> total loss: 0.00118
+Step: 2440 / 7200 ----> total loss: 0.00091
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2448
+Step: 2460 / 7200 ----> total loss: 0.00085
+Step: 2480 / 7200 ----> total loss: 0.00104
+Step: 2500 / 7200 ----> total loss: 0.00094
+Step: 2520 / 7200 ----> total loss: 0.00110
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2520
+Step: 2540 / 7200 ----> total loss: 0.00107
+Step: 2560 / 7200 ----> total loss: 0.00080
+Step: 2580 / 7200 ----> total loss: 0.00104
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2592
+Step: 2600 / 7200 ----> total loss: 0.00083
+Step: 2620 / 7200 ----> total loss: 0.00072
+Step: 2640 / 7200 ----> total loss: 0.00118
+Step: 2660 / 7200 ----> total loss: 0.00085
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2664
+Step: 2680 / 7200 ----> total loss: 0.00121
+Step: 2700 / 7200 ----> total loss: 0.00090
+Step: 2720 / 7200 ----> total loss: 0.00087
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2736
+Step: 2740 / 7200 ----> total loss: 0.00062
+Step: 2760 / 7200 ----> total loss: 0.00135
+Step: 2780 / 7200 ----> total loss: 0.00068
+Step: 2800 / 7200 ----> total loss: 0.00080
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2808
+Step: 2820 / 7200 ----> total loss: 0.00049
+Step: 2840 / 7200 ----> total loss: 0.00076
+Step: 2860 / 7200 ----> total loss: 0.00101
+Step: 2880 / 7200 ----> total loss: 0.00053
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2880
+Step: 2900 / 7200 ----> total loss: 0.00101
+Step: 2920 / 7200 ----> total loss: 0.00050
+Step: 2940 / 7200 ----> total loss: 0.00045
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-2952
+Step: 2960 / 7200 ----> total loss: 0.00067
+Step: 2980 / 7200 ----> total loss: 0.00073
+Step: 3000 / 7200 ----> total loss: 0.00049
+Step: 3020 / 7200 ----> total loss: 0.00087
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3024
+Step: 3040 / 7200 ----> total loss: 0.00063
+Step: 3060 / 7200 ----> total loss: 0.00067
+Step: 3080 / 7200 ----> total loss: 0.00083
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3096
+Step: 3100 / 7200 ----> total loss: 0.00043
+Step: 3120 / 7200 ----> total loss: 0.00056
+Step: 3140 / 7200 ----> total loss: 0.00056
+Step: 3160 / 7200 ----> total loss: 0.00066
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3168
+Step: 3180 / 7200 ----> total loss: 0.00075
+Step: 3200 / 7200 ----> total loss: 0.00063
+Step: 3220 / 7200 ----> total loss: 0.00036
+Step: 3240 / 7200 ----> total loss: 0.00060
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3240
+Step: 3260 / 7200 ----> total loss: 0.00103
+Step: 3280 / 7200 ----> total loss: 0.00034
+Step: 3300 / 7200 ----> total loss: 0.00035
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3312
+Step: 3320 / 7200 ----> total loss: 0.00051
+Step: 3340 / 7200 ----> total loss: 0.00057
+Step: 3360 / 7200 ----> total loss: 0.00043
+Step: 3380 / 7200 ----> total loss: 0.00053
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3384
+Step: 3400 / 7200 ----> total loss: 0.00030
+Step: 3420 / 7200 ----> total loss: 0.00055
+Step: 3440 / 7200 ----> total loss: 0.00032
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3456
+Step: 3460 / 7200 ----> total loss: 0.00088
+Step: 3480 / 7200 ----> total loss: 0.00053
+Step: 3500 / 7200 ----> total loss: 0.00049
+Step: 3520 / 7200 ----> total loss: 0.00038
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3528
+Step: 3540 / 7200 ----> total loss: 0.00095
+Step: 3560 / 7200 ----> total loss: 0.00080
+Step: 3580 / 7200 ----> total loss: 0.00027
+Step: 3600 / 7200 ----> total loss: 0.00034
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3600
+Step: 3620 / 7200 ----> total loss: 0.00028
+Step: 3640 / 7200 ----> total loss: 0.00048
+Step: 3660 / 7200 ----> total loss: 0.00065
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3672
+Step: 3680 / 7200 ----> total loss: 0.00031
+Step: 3700 / 7200 ----> total loss: 0.00038
+Step: 3720 / 7200 ----> total loss: 0.00044
+Step: 3740 / 7200 ----> total loss: 0.00072
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3744
+Step: 3760 / 7200 ----> total loss: 0.00049
+Step: 3780 / 7200 ----> total loss: 0.00093
+Step: 3800 / 7200 ----> total loss: 0.00032
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3816
+Step: 3820 / 7200 ----> total loss: 0.00040
+Step: 3840 / 7200 ----> total loss: 0.00025
+Step: 3860 / 7200 ----> total loss: 0.00038
+Step: 3880 / 7200 ----> total loss: 0.00064
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3888
+Step: 3900 / 7200 ----> total loss: 0.00050
+Step: 3920 / 7200 ----> total loss: 0.00037
+Step: 3940 / 7200 ----> total loss: 0.00057
+Step: 3960 / 7200 ----> total loss: 0.00046
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-3960
+Step: 3980 / 7200 ----> total loss: 0.00064
+Step: 4000 / 7200 ----> total loss: 0.00033
+Step: 4020 / 7200 ----> total loss: 0.00025
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4032
+Step: 4040 / 7200 ----> total loss: 0.00050
+Step: 4060 / 7200 ----> total loss: 0.00029
+Step: 4080 / 7200 ----> total loss: 0.00021
+Step: 4100 / 7200 ----> total loss: 0.00045
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4104
+Step: 4120 / 7200 ----> total loss: 0.00025
+Step: 4140 / 7200 ----> total loss: 0.00039
+Step: 4160 / 7200 ----> total loss: 0.00020
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4176
+Step: 4180 / 7200 ----> total loss: 0.00045
+Step: 4200 / 7200 ----> total loss: 0.00023
+Step: 4220 / 7200 ----> total loss: 0.00046
+Step: 4240 / 7200 ----> total loss: 0.00046
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4248
+Step: 4260 / 7200 ----> total loss: 0.00038
+Step: 4280 / 7200 ----> total loss: 0.00046
+Step: 4300 / 7200 ----> total loss: 0.00023
+Step: 4320 / 7200 ----> total loss: 0.00041
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4320
+Step: 4340 / 7200 ----> total loss: 0.00037
+Step: 4360 / 7200 ----> total loss: 0.00024
+Step: 4380 / 7200 ----> total loss: 0.00018
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4392
+Step: 4400 / 7200 ----> total loss: 0.00050
+Step: 4420 / 7200 ----> total loss: 0.00043
+Step: 4440 / 7200 ----> total loss: 0.00026
+Step: 4460 / 7200 ----> total loss: 0.00033
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4464
+Step: 4480 / 7200 ----> total loss: 0.00020
+Step: 4500 / 7200 ----> total loss: 0.00021
+Step: 4520 / 7200 ----> total loss: 0.00054
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4536
+Step: 4540 / 7200 ----> total loss: 0.00018
+Step: 4560 / 7200 ----> total loss: 0.00026
+Step: 4580 / 7200 ----> total loss: 0.00018
+Step: 4600 / 7200 ----> total loss: 0.00028
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4608
+Step: 4620 / 7200 ----> total loss: 0.00018
+Step: 4640 / 7200 ----> total loss: 0.00017
+Step: 4660 / 7200 ----> total loss: 0.00038
+Step: 4680 / 7200 ----> total loss: 0.00031
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4680
+Step: 4700 / 7200 ----> total loss: 0.00046
+Step: 4720 / 7200 ----> total loss: 0.00020
+Step: 4740 / 7200 ----> total loss: 0.00022
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4752
+Step: 4760 / 7200 ----> total loss: 0.00044
+Step: 4780 / 7200 ----> total loss: 0.00018
+Step: 4800 / 7200 ----> total loss: 0.00020
+Step: 4820 / 7200 ----> total loss: 0.00017
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4824
+Step: 4840 / 7200 ----> total loss: 0.00016
+Step: 4860 / 7200 ----> total loss: 0.00016
+Step: 4880 / 7200 ----> total loss: 0.00040
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4896
+Step: 4900 / 7200 ----> total loss: 0.00021
+Step: 4920 / 7200 ----> total loss: 0.00020
+Step: 4940 / 7200 ----> total loss: 0.00016
+Step: 4960 / 7200 ----> total loss: 0.00019
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-4968
+Step: 4980 / 7200 ----> total loss: 0.00014
+Step: 5000 / 7200 ----> total loss: 0.00018
+Step: 5020 / 7200 ----> total loss: 0.00049
+Step: 5040 / 7200 ----> total loss: 0.00013
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5040
+Step: 5060 / 7200 ----> total loss: 0.00013
+Step: 5080 / 7200 ----> total loss: 0.00037
+Step: 5100 / 7200 ----> total loss: 0.00014
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5112
+Step: 5120 / 7200 ----> total loss: 0.00013
+Step: 5140 / 7200 ----> total loss: 0.00012
+Step: 5160 / 7200 ----> total loss: 0.00014
+Step: 5180 / 7200 ----> total loss: 0.00038
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5184
+Step: 5200 / 7200 ----> total loss: 0.00014
+Step: 5220 / 7200 ----> total loss: 0.00036
+Step: 5240 / 7200 ----> total loss: 0.00014
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5256
+Step: 5260 / 7200 ----> total loss: 0.00024
+Step: 5280 / 7200 ----> total loss: 0.00013
+Step: 5300 / 7200 ----> total loss: 0.00017
+Step: 5320 / 7200 ----> total loss: 0.00023
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5328
+Step: 5340 / 7200 ----> total loss: 0.00036
+Step: 5360 / 7200 ----> total loss: 0.00011
+Step: 5380 / 7200 ----> total loss: 0.00038
+Step: 5400 / 7200 ----> total loss: 0.00020
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5400
+Step: 5420 / 7200 ----> total loss: 0.00040
+Step: 5440 / 7200 ----> total loss: 0.00013
+Step: 5460 / 7200 ----> total loss: 0.00019
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5472
+Step: 5480 / 7200 ----> total loss: 0.00013
+Step: 5500 / 7200 ----> total loss: 0.00012
+Step: 5520 / 7200 ----> total loss: 0.00046
+Step: 5540 / 7200 ----> total loss: 0.00015
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5544
+Step: 5560 / 7200 ----> total loss: 0.00015
+Step: 5580 / 7200 ----> total loss: 0.00012
+Step: 5600 / 7200 ----> total loss: 0.00038
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5616
+Step: 5620 / 7200 ----> total loss: 0.00012
+Step: 5640 / 7200 ----> total loss: 0.00034
+Step: 5660 / 7200 ----> total loss: 0.00013
+Step: 5680 / 7200 ----> total loss: 0.00017
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5688
+Step: 5700 / 7200 ----> total loss: 0.00042
+Step: 5720 / 7200 ----> total loss: 0.00011
+Step: 5740 / 7200 ----> total loss: 0.00015
+Step: 5760 / 7200 ----> total loss: 0.00016
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5760
+Step: 5780 / 7200 ----> total loss: 0.00040
+Step: 5800 / 7200 ----> total loss: 0.00011
+Step: 5820 / 7200 ----> total loss: 0.00010
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5832
+Step: 5840 / 7200 ----> total loss: 0.00011
+Step: 5860 / 7200 ----> total loss: 0.00034
+Step: 5880 / 7200 ----> total loss: 0.00011
+Step: 5900 / 7200 ----> total loss: 0.00012
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5904
+Step: 5920 / 7200 ----> total loss: 0.00010
+Step: 5940 / 7200 ----> total loss: 0.00034
+Step: 5960 / 7200 ----> total loss: 0.00015
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-5976
+Step: 5980 / 7200 ----> total loss: 0.00010
+Step: 6000 / 7200 ----> total loss: 0.00012
+Step: 6020 / 7200 ----> total loss: 0.00010
+Step: 6040 / 7200 ----> total loss: 0.00011
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6048
+Step: 6060 / 7200 ----> total loss: 0.00038
+Step: 6080 / 7200 ----> total loss: 0.00034
+Step: 6100 / 7200 ----> total loss: 0.00009
+Step: 6120 / 7200 ----> total loss: 0.00011
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6120
+Step: 6140 / 7200 ----> total loss: 0.00010
+Step: 6160 / 7200 ----> total loss: 0.00037
+Step: 6180 / 7200 ----> total loss: 0.00011
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6192
+Step: 6200 / 7200 ----> total loss: 0.00035
+Step: 6220 / 7200 ----> total loss: 0.00010
+Step: 6240 / 7200 ----> total loss: 0.00009
+Step: 6260 / 7200 ----> total loss: 0.00010
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6264
+Step: 6280 / 7200 ----> total loss: 0.00013
+Step: 6300 / 7200 ----> total loss: 0.00012
+Step: 6320 / 7200 ----> total loss: 0.00014
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6336
+Step: 6340 / 7200 ----> total loss: 0.00034
+Step: 6360 / 7200 ----> total loss: 0.00009
+Step: 6380 / 7200 ----> total loss: 0.00035
+Step: 6400 / 7200 ----> total loss: 0.00018
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6408
+Step: 6420 / 7200 ----> total loss: 0.00009
+Step: 6440 / 7200 ----> total loss: 0.00014
+Step: 6460 / 7200 ----> total loss: 0.00034
+Step: 6480 / 7200 ----> total loss: 0.00009
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6480
+Step: 6500 / 7200 ----> total loss: 0.00010
+Step: 6520 / 7200 ----> total loss: 0.00010
+Step: 6540 / 7200 ----> total loss: 0.00037
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6552
+Step: 6560 / 7200 ----> total loss: 0.00008
+Step: 6580 / 7200 ----> total loss: 0.00033
+Step: 6600 / 7200 ----> total loss: 0.00009
+Step: 6620 / 7200 ----> total loss: 0.00008
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6624
+Step: 6640 / 7200 ----> total loss: 0.00012
+Step: 6660 / 7200 ----> total loss: 0.00012
+Step: 6680 / 7200 ----> total loss: 0.00008
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6696
+Step: 6700 / 7200 ----> total loss: 0.00034
+Step: 6720 / 7200 ----> total loss: 0.00009
+Step: 6740 / 7200 ----> total loss: 0.00009
+Step: 6760 / 7200 ----> total loss: 0.00036
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6768
+Step: 6780 / 7200 ----> total loss: 0.00012
+Step: 6800 / 7200 ----> total loss: 0.00010
+Step: 6820 / 7200 ----> total loss: 0.00036
+Step: 6840 / 7200 ----> total loss: 0.00009
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6840
+Step: 6860 / 7200 ----> total loss: 0.00009
+Step: 6880 / 7200 ----> total loss: 0.00009
+Step: 6900 / 7200 ----> total loss: 0.00038
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6912
+Step: 6920 / 7200 ----> total loss: 0.00009
+Step: 6940 / 7200 ----> total loss: 0.00010
+Step: 6960 / 7200 ----> total loss: 0.00035
+Step: 6980 / 7200 ----> total loss: 0.00014
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-6984
+Step: 7000 / 7200 ----> total loss: 0.00009
+Step: 7020 / 7200 ----> total loss: 0.00032
+Step: 7040 / 7200 ----> total loss: 0.00009
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-7056
+Step: 7060 / 7200 ----> total loss: 0.00037
+Step: 7080 / 7200 ----> total loss: 0.00008
+Step: 7100 / 7200 ----> total loss: 0.00009
+Step: 7120 / 7200 ----> total loss: 0.00016
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-7128
+Step: 7140 / 7200 ----> total loss: 0.00010
+Step: 7160 / 7200 ----> total loss: 0.00008
+Step: 7180 / 7200 ----> total loss: 0.00034
+Step: 7200 / 7200 ----> total loss: 0.00010
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor\checkpoint-7200
+Train done
