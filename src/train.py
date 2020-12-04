@@ -8,9 +8,9 @@ import logging
 from logging import handlers
 import torch
 from torch.utils.data import DataLoader, RandomSampler, TensorDataset
+from transformers import AdamW, get_linear_schedule_with_warmup
 from config import Config
 from model import TriggerExtractor, SubObjExtractor, TimeLocExtractor
-from transformers import AdamW, get_linear_schedule_with_warmup
 from load_data import CorpusData
 
 
@@ -118,6 +118,7 @@ def train(model, train_dataset, save_model_dir):
     logger.info(f"  Total training batch size = {Config.train_batch_size}")
     logger.info(f"  Total optimization steps = {t_total}")
     logger.info(f'Save model in {save_steps} steps; Eval model in {eval_steps} steps')
+    logger.info(f'Save model at {save_model_dir}')
     
     for epoch in range(Config.train_epochs):
 
@@ -188,7 +189,7 @@ if __name__ == '__main__':
                     [[0,0],[0,0],[0,0],[1,0],[0,1],[0,0],[0,0],[0,0],[0,0],[0,0]]]).cuda()
 
     # 主客体识别模型测试样例的label。shape:（Config.train_batch_size, Config.sequence_length, 4）
-    sub_obj_labels = torch.tensor([[[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,0,0,0],[0,2,0,0],[0,0,1,0],[0,0,0,1],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
+    sub_obj_labels = torch.tensor([[[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
                     [[0,0,0,0],[1,0,0,0],[0,1,0,0],[0,0,0,0],[0,0,0,0],[0,0,1,0],[0,0,0,0],[0,0,0,1],[0,0,0,0],[0,0,0,0]]]).cuda()
 
     # 主体客体识别模型测试样例的trigger_index
@@ -217,8 +218,6 @@ if __name__ == '__main__':
     
     '''
 
-
-    
     # ===============拿到预处理后的数据并转tensor================
     corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
     input_ids = torch.from_numpy(corpus_data["input_ids"]).long() 

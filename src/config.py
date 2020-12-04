@@ -19,7 +19,7 @@ class Config:
     saved_log_dir='../saved_model/logs/train_info.log'
     # 参数
     train_batch_size = 2
-    train_epochs = 100
+    train_epochs = 5
     sequence_length = 10 # 每句话的长度，不到这个长度就padding
     trigger_extractor_mid_linear_dims = 128 # 这个是触发词提取模型的线性层的输出维度
     sbj_obj_extractor_mid_linear_dims = 128 # 这个是主客体识别模型的线性层的输出维度
