@@ -215,7 +215,7 @@ class CorpusData:
     # 按行读入 json，原数据集有误，每行json之间应该加逗号
     @staticmethod
     def load_json_file(file_path) -> list:
-        with open(file_path, 'r') as f:
+        with open(file_path, 'rb') as f:
             result = json.load(f)
         return result
 

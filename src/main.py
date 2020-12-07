@@ -25,9 +25,9 @@ def main():
     num = int(input("输入训练模型编号："))
 
     corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
-    input_ids = torch.from_numpy(corpus_data["input_ids"]).long() 
-    attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long() 
-    trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long() 
+    input_ids = torch.from_numpy(corpus_data["input_ids"]).long().cuda()
+    attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long().cuda()
+    trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long().cuda() 
 
     if num==1:
         train_dataset = TensorDataset(input_ids, attention_masks, trigger_labels)
