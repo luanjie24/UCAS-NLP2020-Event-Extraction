@@ -3,7 +3,7 @@ import os, sys
 
 class Config:
     os.chdir(sys.path[0])# 这句话时防止相对路径在VSCode里用不了
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu') # 看有没有gpu(cuda)，没有就用cpu
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # 看有没有gpu(cuda)，没有就用cpu
 
     # 数据集的路径 
     dataset_train = '../dataset/xf_2020_Corpus/final/raw_data/preliminary_data_pred_trigger_and_role.json' # 总共576条数据
@@ -19,8 +19,8 @@ class Config:
     # 日志存储路径
     saved_log_dir='../saved_model/logs/train_info.log'
     # 参数
-    train_batch_size = 2
-    train_epochs = 5
+    train_batch_size = 25
+    train_epochs = 10
     sequence_length = 256 # 每句话的长度，不到这个长度就padding
     trigger_extractor_mid_linear_dims = 128 # 这个是触发词提取模型的线性层的输出维度
     sbj_obj_extractor_mid_linear_dims = 128 # 这个是主客体识别模型的线性层的输出维度

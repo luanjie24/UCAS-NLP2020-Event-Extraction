@@ -11,6 +11,7 @@ main.py目前是对train.py的进一步封装，方便训练
 
 import torch
 from torch.utils.data import DataLoader, RandomSampler, TensorDataset
+import torch.nn as nn
 import train
 from config import Config
 from model import TriggerExtractor, SubObjExtractor, TimeLocExtractor
@@ -21,18 +22,32 @@ import argparse
 def main(num: int):
   
 
+    # if torch.cuda.device_count() > 1:
+    #     print("Let's use", torch.cuda.device_count(), "GPUs!")
+    #     # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+    #     trigger_extractor = TriggerExtractor()
+    #     trigger_extractor = nn.DataParallel(TriggerExtractor)
+    #     trigger_extractor.to(Config.device)
 
     corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
-    input_ids = torch.from_numpy(corpus_data["input_ids"]).long().cuda()
-    attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long().cuda()
-    trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long().cuda() 
-    sub_obj_labels = torch.from_numpy(corpus_data["sub_obj_labels"]).long().cuda() 
-    time_loc_labels = torch.from_numpy(corpus_data["time_loc_labels"]).long().cuda() 
-    trigger_index = torch.from_numpy(corpus_data["trigger_index"]).long().cuda() 
+    input_ids = torch.from_numpy(corpus_data["input_ids"]).long().to(Config.device)
+    attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long().to(Config.device)
+    trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long().to(Config.device)
+    sub_obj_labels = torch.from_numpy(corpus_data["sub_obj_labels"]).long().to(Config.device)
+    time_loc_labels = torch.from_numpy(corpus_data["time_loc_labels"]).long().to(Config.device)
+    trigger_index = torch.from_numpy(corpus_data["trigger_index"]).long().to(Config.device)
 
     if num==1:
         train_dataset = TensorDataset(input_ids, attention_masks, trigger_labels)
         trigger_extractor = TriggerExtractor() 
+        # 如果有多显卡
+        # https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html
+        # 
+        if torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+            trigger_extractor = nn.DataParallel(trigger_extractor)
+
         trigger_extractor.to(Config.device)
         train.train(trigger_extractor, train_dataset, Config.saved_trigger_extractor_dir)
     elif num==2:
