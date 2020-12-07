@@ -223,7 +223,9 @@ if __name__ == '__main__':
     input_ids = torch.from_numpy(corpus_data["input_ids"]).long() 
     attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long() 
     trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long() 
-    
+    sub_obj_labels = torch.from_numpy(corpus_data["sub_obj_labels"]).long().cuda() 
+    time_loc_labels = torch.from_numpy(corpus_data["time_loc_labels"]).long().cuda() 
+    trigger_index = torch.from_numpy(corpus_data["trigger_index"]).long().cuda() 
 
 
      

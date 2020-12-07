@@ -28,6 +28,9 @@ def main():
     input_ids = torch.from_numpy(corpus_data["input_ids"]).long().cuda()
     attention_masks = torch.from_numpy(corpus_data["attention_masks"]).long().cuda()
     trigger_labels = torch.from_numpy(corpus_data["trigger_labels"]).long().cuda() 
+    sub_obj_labels = torch.from_numpy(corpus_data["sub_obj_labels"]).long().cuda() 
+    time_loc_labels = torch.from_numpy(corpus_data["time_loc_labels"]).long().cuda() 
+    trigger_index = torch.from_numpy(corpus_data["trigger_index"]).long().cuda() 
 
     if num==1:
         train_dataset = TensorDataset(input_ids, attention_masks, trigger_labels)
