@@ -42,6 +42,291 @@
     ]
   },
   {
+    "sentence": "4.45万名党员干部职工，下沉到13800多个网格参与排查工作；1.9万名民警加强值守，成为防控前沿的尖兵",
+    "events": [
+      {
+        "trigger": {
+          "text": "参与",
+          "length": 2,
+          "offset": 25
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "subject",
+            "text": "4.45万名党员干部职工",
+            "offset": 0,
+            "length": 12
+          },
+          {
+            "role": "object",
+            "text": "排查工作",
+            "offset": 27,
+            "length": 4
+          }
+        ]
+      },
+      {
+        "trigger": {
+          "text": "加强",
+          "length": 2,
+          "offset": 39
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "subject",
+            "text": "1.9万名民警",
+            "offset": 32,
+            "length": 7
+          },
+          {
+            "role": "object",
+            "text": "值守",
+            "offset": 41,
+            "length": 2
+          }
+        ]
+      }
+    ],
+    "distant_triggers": [
+      "参与",
+      "加强",
+      "成为"
+    ],
+    "pred_triggers": [
+      {
+        "text": "参与",
+        "length": 2,
+        "offset": 25
+      }
+    ],
+    "pred_events": [
+      {
+        "trigger": {
+          "text": "参与",
+          "length": 2,
+          "offset": 25
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "object",
+            "text": "排查工作",
+            "length": 4,
+            "offset": 27
+          },
+          {
+            "role": "subject",
+            "text": "4.45万名党员干部职工",
+            "length": 12,
+            "offset": 0
+          }
+        ]
+      },
+      {
+        "trigger": {
+          "text": "加强",
+          "length": 2,
+          "offset": 39
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "object",
+            "text": "值守",
+            "length": 2,
+            "offset": 41
+          },
+          {
+            "role": "subject",
+            "text": "1.9万名民警",
+            "length": 7,
+            "offset": 32
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sentence": "73岁的李兰娟院士，2月11日穿上写着“武汉加油”四个大字的防护服，进入收治重症病人的ICU，逐一分析患者的病情",
+    "events": [
+      {
+        "trigger": {
+          "text": "分析",
+          "length": 2,
+          "offset": 49
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "subject",
+            "text": "73岁的李兰娟院士",
+            "offset": 0,
+            "length": 9
+          },
+          {
+            "role": "object",
+            "text": "患者的病情",
+            "offset": 51,
+            "length": 5
+          },
+          {
+            "role": "time",
+            "text": "2月11日",
+            "offset": 10,
+            "length": 5
+          }
+        ]
+      },
+      {
+        "trigger": {
+          "text": "穿上",
+          "length": 2,
+          "offset": 15
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "subject",
+            "text": "73岁的李兰娟院士",
+            "offset": 0,
+            "length": 9
+          },
+          {
+            "role": "object",
+            "text": "写着“武汉加油”四个大字的防护服",
+            "offset": 17,
+            "length": 16
+          },
+          {
+            "role": "time",
+            "text": "2月11日",
+            "offset": 10,
+            "length": 5
+          }
+        ]
+      },
+      {
+        "trigger": {
+          "text": "进入",
+          "length": 2,
+          "offset": 34
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "subject",
+            "text": "73岁的李兰娟院士",
+            "offset": 0,
+            "length": 9
+          },
+          {
+            "role": "object",
+            "text": "收治重症病人的ICU",
+            "offset": 36,
+            "length": 10
+          },
+          {
+            "role": "time",
+            "text": "2月11日",
+            "offset": 10,
+            "length": 5
+          }
+        ]
+      }
+    ],
+    "distant_triggers": [
+      "分析",
+      "进入"
+    ],
+    "pred_triggers": [
+      {
+        "text": "分析",
+        "length": 2,
+        "offset": 49
+      }
+    ],
+    "pred_events": [
+      {
+        "trigger": {
+          "text": "分析",
+          "length": 2,
+          "offset": 49
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "object",
+            "text": "患者的病情",
+            "length": 5,
+            "offset": 51
+          },
+          {
+            "role": "subject",
+            "text": "73岁的李兰娟院士",
+            "length": 9,
+            "offset": 0
+          }
+        ]
+      },
+      {
+        "trigger": {
+          "text": "穿上",
+          "length": 2,
+          "offset": 15
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "object",
+            "text": "写着“武汉加油”四个大字的防护服",
+            "length": 16,
+            "offset": 17
+          },
+          {
+            "role": "subject",
+            "text": "73岁的李兰娟院士",
+            "length": 9,
+            "offset": 0
+          }
+        ]
+      },
+      {
+        "trigger": {
+          "text": "进入",
+          "length": 2,
+          "offset": 34
+        },
+        "tense": "过去",
+        "polarity": "肯定",
+        "arguments": [
+          {
+            "role": "object",
+            "text": "收治重症病人的ICU",
+            "length": 10,
+            "offset": 36
+          },
+          {
+            "role": "subject",
+            "text": "73岁的李兰娟院士",
+            "length": 9,
+            "offset": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
     "sentence": "之后日本代表提出能否重新签订一份投降书，结果麦克阿瑟不同意了",
     "events": [
       {
