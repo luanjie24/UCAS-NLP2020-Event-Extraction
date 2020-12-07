@@ -24,6 +24,7 @@ class Event:
 
     # 一条文本的最大长度
     m_max_length: int
+
     # 每个单词的Token
     # 如果没有某个论元，则其 token 为 np.zeros((1, 1))
     m_trigger_token: np.ndarray
@@ -36,6 +37,7 @@ class Event:
     m_sentence_token: np.ndarray
     m_attention_mask: np.ndarray
     # 输出 一个事件的所有标签
+    m_trigger_index: np.ndarray
     m_trigger_labels: np.ndarray
     m_subject_object_labels: np.ndarray
     m_time_location_labels: np.ndarray
@@ -103,13 +105,16 @@ class Event:
     # trigger_labels = torch.tensor([[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [1, 0], [0, 1], [0, 0], [0, 0], [0, 0]],
     #                                [[0, 0], [0, 0], [0, 0], [1, 0], [0, 1], [0, 0], [0, 0], [0, 0], [0, 0],
     #                                 [0, 0]]]).cuda()
-    def set_trigger_label(self):
+    def set_trigger_label_and_index(self):
         trigger_start_idx, trigger_len = Event.locate_label_index(self.m_sentence_token, self.m_trigger_token)
         self.m_trigger_labels = np.zeros((self.m_max_length, 2), dtype=np.int8)
+        self.m_trigger_index = np.zeros(shape=(2,), dtype=np.int8)
 
         if trigger_len != 0:
             self.m_trigger_labels[trigger_start_idx][0] = 1
             self.m_trigger_labels[trigger_start_idx + trigger_len - 1][1] = 1
+            self.m_trigger_index[0] = trigger_start_idx
+            self.m_trigger_index[1] = trigger_start_idx + trigger_len - 1
         return
 
     # 时间地点识别模型测试样例的label。shape:（Config.train_batch_size, Config.sequence_length）
@@ -203,7 +208,7 @@ class Event:
         self.encode_arguments(tokenizer)
         self.encode_sentence(tokenizer)
         # 设置标签
-        self.set_trigger_label()
+        self.set_trigger_label_and_index()
         self.set_object_subject_label()
         self.set_time_loc_label()
         return
@@ -319,6 +324,21 @@ class CorpusData:
                 all_trigger_labels[idx] = all_events[idx].m_trigger_labels
             return all_trigger_labels
 
+    # 得到所有事件中的 trigger_index
+    @staticmethod
+    def extract_all_trigger_index_from_events(all_events: List[Event]) -> np.ndarray:
+        all_events_len: int = len(all_events)
+        if all_events_len == 0:
+            return np.zeros(1)
+        else:
+            # 获取一句话的trigger_index 为2维变量
+            token_data_type: np.dtype = all_events[0].m_trigger_index.dtype
+            all_trigger_indexes = np.zeros((all_events_len, 2), dtype=token_data_type)
+
+            for idx in range(all_events_len):
+                all_trigger_indexes[idx] = all_events[idx].m_trigger_index
+            return all_trigger_indexes
+
     # 得到所有事件中的 主语宾语
     @staticmethod
     def extract_all_subject_object_labels_from_events(all_events: List[Event]) -> np.ndarray:
@@ -382,6 +402,7 @@ class CorpusData:
             input_ids = CorpusData.extract_all_sentences_token_from_events(all_events)
             attention_masks = CorpusData.extract_all_attention_mask_from_events(all_events)
             trigger_labels = CorpusData.extract_all_trigger_labels_from_events(all_events)
+            trigger_index = CorpusData.extract_all_trigger_index_from_events(all_events)
             sub_obj_labels = CorpusData.extract_all_subject_object_labels_from_events(all_events)
             time_loc_labels = CorpusData.extract_all_time_location_labels_from_events(all_events)
 
@@ -389,6 +410,7 @@ class CorpusData:
             corpus_data = {'input_ids': input_ids,
                            'attention_masks': attention_masks,
                            'trigger_labels': trigger_labels,
+                           'trigger_index': trigger_index,
                            'sub_obj_labels': sub_obj_labels,
                            'time_loc_labels': time_loc_labels}
             print("数据加载完毕")
