@@ -11,7 +11,7 @@ class TriggerExtractor(nn.Module):
         super(TriggerExtractor, self).__init__()   
 
         # BERT层
-        self.bert_model = BertModel.from_pretrained(Config.bert_dir)
+        self.bert_model = BertModel.from_pretrained(Config.bert_dir, cache_dir=Config.bert_cache_dir)
         self.bert_config = self.bert_model.config
         for param in self.bert_model.parameters():
             param.requires_grad = True # 微调时是否调BERT，True的话就调
@@ -136,7 +136,7 @@ class SubObjExtractor(nn.Module):
         super(SubObjExtractor, self).__init__()
 
         # BERT层
-        self.bert_model = BertModel.from_pretrained(Config.bert_dir)
+        self.bert_model = BertModel.from_pretrained(Config.bert_dir, cache_dir=Config.bert_cache_dir)
         self.bert_config = self.bert_model.config
         for param in self.bert_model.parameters():
             param.requires_grad = True # 微调时是否调BERT，True的话就调
@@ -223,7 +223,7 @@ class TimeLocExtractor(nn.Module):
         super(TimeLocExtractor, self).__init__()
 
         # BERT层
-        self.bert_model = BertModel.from_pretrained(Config.bert_dir)
+        self.bert_model = BertModel.from_pretrained(Config.bert_dir, cache_dir=Config.bert_cache_dir)
         self.bert_config = self.bert_model.config
         for param in self.bert_model.parameters():
             param.requires_grad = True # 微调时是否调BERT，True的话就调

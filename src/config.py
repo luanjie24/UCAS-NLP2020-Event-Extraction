@@ -11,6 +11,7 @@ class Config:
 
     # 预训练模型所在路径
     bert_dir='../pretrained_model/chinese_roberta_wwm_ext_pytorch'
+    bert_cache_dir = '../saved_model/bert_cached'
     # 训练完模型存储路径
     saved_trigger_extractor_dir = '../saved_model/models/TriggerExtractor'
     saved_sub_obj_extractor_dir = '../saved_model/models/SubObjExtractor'

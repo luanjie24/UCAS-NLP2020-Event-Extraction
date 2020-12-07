@@ -15,14 +15,12 @@ import train
 from config import Config
 from model import TriggerExtractor, SubObjExtractor, TimeLocExtractor
 from load_data import CorpusData
+import argparse
 
 
-def main():
-    print("模型编号","."*10, "模型名称")
-    print("  1","."*14, "TriggerExtractor")
-    print("  2","."*14, "SubObjExtractor")
-    print("  3","."*14, "TimeLocExtractor")
-    num = int(input("输入训练模型编号："))
+def main(num: int):
+  
+
 
     corpus_data = CorpusData.load_corpus_data(Config.dataset_train)
     input_ids = torch.from_numpy(corpus_data["input_ids"]).long().cuda()
@@ -48,14 +46,30 @@ def main():
         time_loc_extractor.to(Config.device)
         train.train(time_loc_extractor, train_dataset, Config.saved_time_loc_extractor_dir)
     else:
-        print("编号错误")
-    
+        raise ValueError("编号错误")
 
 
 
-
-
+# 这里解析命令行参数
+# usage
+# python main -h 
+# python main -i num # num为模型标号
 if __name__ == '__main__':
 
-    main()
+    # help_str:str =  "Model Index" + "."*10 + "Model Name\n" \
+    #                 + "  1" + "."*14 +  "TriggerExtractor\n" \
+    #                 +  "  2" + "."*14 +  "SubObjExtractor\n" \
+    #                 + "  3" + "."*14 +  "TimeLocExtractor"
+    # num = int(input("输入训练模型编号："))
+    # 模型的编号
+    arg_range = range(1,4)
+    parser = argparse.ArgumentParser(description='Choose One Model for Training')
+    parser.add_argument("-i", type=int,  choices=arg_range, 
+                        help='1 for TriggerExtractor, 2 for SubObjExtractor, 3 for TimeLocExtractor')
+
+    args = parser.parse_args()
+    if args.i not in arg_range:
+        raise ValueError("编号错误")
+
+    main(args.i)
     

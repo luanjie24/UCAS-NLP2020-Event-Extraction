@@ -381,7 +381,8 @@ class CorpusData:
     #                 'sub_obj_labels': sub_obj_labels,
     #                 'time_loc_labels': time_loc_labels}
     @staticmethod
-    def load_corpus_data(file_name: str = '', load_data_from_cache: bool = False,
+    def load_corpus_data(file_name: str = '', 
+                        load_data_from_cache: bool = False,
                          cached_file_name: str = '') -> dict:
 
         # 从数据文件中直接读取多个数组
@@ -395,7 +396,7 @@ class CorpusData:
             data_set_json = CorpusData.load_json_file(file_name)
             # 设置 tokenizer
             tokenizer = BertTokenizer.from_pretrained(
-                "hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
+                pretrained_model_name_or_path=Config.bert_dir, cache_dir=Config.bert_cache_dir)
             # 读入所有事件
             all_events:list = CorpusData.json_list_extract_event(data_set_json, Config.sequence_length, tokenizer)
 
