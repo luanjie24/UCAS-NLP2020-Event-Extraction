@@ -636,19 +636,31 @@ if __name__ == "__main__":
     raw_data_path = '../dataset/xf_2020_Corpus/final/EE2020/preliminary_data_pred_trigger_and_role.json'
     data_set  = CorpusData.load_corpus_data(raw_data_path)
     print(0)
-    # sentence_set = CorpusData.load_json_file(raw_data_path)
-    # raw_length = len(sentence_set)
-    # test_size = int(0.2 * raw_length)
-    # train_set = sentence_set[test_size:-1]
-    # test_set = sentence_set[0:test_size]
+    sentence_set = CorpusData.load_json_file(raw_data_path)
+    raw_length = len(sentence_set)
 
-    # f1 = open('test.json', 'w')
-    # json.dump(test_set, f1,ensure_ascii=False,  indent=4)
-    # f1.close()
+    dev_size = int(0.1 * raw_length)
+    test_size = int(0.2 * raw_length)
+    
+    test_set = sentence_set[0:test_size]
+    dev_set = sentence_set[test_size: test_size+dev_size]
+    train_set = sentence_set[test_size+dev_size:-1]
+    print(len(test_set))
+    print(len(dev_set))
+    print(len(train_set))
 
-    # f2 = open('train.json', 'w')
-    # json.dump(train_set, f2,ensure_ascii=False, indent=4)
-    # f2.close()
+
+    f1 = open('test.json', 'w')
+    json.dump(test_set, f1,ensure_ascii=False,  indent=4)
+    f1.close()
+
+    f2 = open('train.json', 'w')
+    json.dump(train_set, f2,ensure_ascii=False, indent=4)
+    f2.close()
+
+    f3 = open('dev.json', 'w')
+    json.dump(dev_set, f3,ensure_ascii=False,  indent=4)
+    f3.close()
 
 
     # sentences = CorpusData.json_list_extract_corpus_text(sentence_set, sentence_key='sentence')
