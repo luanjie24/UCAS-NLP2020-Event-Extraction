@@ -169,7 +169,8 @@ class SubObjExtractor(nn.Module):
         # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
         # embedding_output shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
         embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask) 
-
+        # print(len(input_tensor),  len(trigger_index) )
+        # print(trigger_index)
         # 将embedding融合trigger的特征
         # trigger_index shape:(Config.train_batch_size, n) trigger_index应该是trigger第一个字和最后一个字在文本中的位置（n应该永远等于2）
         trigger_label_feature = self._batch_gather(embedding_output, trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)

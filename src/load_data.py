@@ -107,14 +107,17 @@ class Event:
     #                                 [0, 0]]]).cuda()
     def set_trigger_label_and_index(self):
         trigger_start_idx, trigger_len = Event.locate_label_index(self.m_sentence_token, self.m_trigger_token)
-        self.m_trigger_labels = np.zeros((self.m_max_length, 2), dtype=np.int8)
-        self.m_trigger_index = np.zeros(shape=(2,), dtype=np.int8)
+        self.m_trigger_labels = np.zeros((self.m_max_length, 2), dtype=np.int32)
+        self.m_trigger_index = np.zeros(shape=(2,), dtype=np.int32)
 
         if trigger_len != 0:
             self.m_trigger_labels[trigger_start_idx][0] = 1
             self.m_trigger_labels[trigger_start_idx + trigger_len - 1][1] = 1
+
             self.m_trigger_index[0] = trigger_start_idx
             self.m_trigger_index[1] = trigger_start_idx + trigger_len - 1
+            # print(self.m_trigger)
+            # print(self.m_trigger_index)
         return
 
     # 时间地点识别模型测试样例的label。shape:（Config.train_batch_size, Config.sequence_length）
@@ -137,7 +140,7 @@ class Event:
     def set_time_loc_label(self):
         time_start_idx, time_len = Event.locate_label_index(self.m_sentence_token, self.m_time_token)
         loc_start_idx, loc_len = Event.locate_label_index(self.m_sentence_token, self.m_location_token)
-        self.m_time_location_labels = np.zeros((self.m_max_length), dtype=np.int8)
+        self.m_time_location_labels = np.zeros((self.m_max_length), dtype=np.int32)
 
         # 时间标签
         if time_len != 0:
@@ -175,7 +178,7 @@ class Event:
     def set_object_subject_label(self):
         object_start_idx, object_len = Event.locate_label_index(self.m_sentence_token, self.m_object_token)
         subject_start_idx, subject_len = Event.locate_label_index(self.m_sentence_token, self.m_subject_token)
-        self.m_subject_object_labels = np.zeros((self.m_max_length, 4), dtype=np.int8)
+        self.m_subject_object_labels = np.zeros((self.m_max_length, 4), dtype=np.int32)
 
         # [主语起始，主语结束，宾语起始，宾语结束]
         if subject_len != 0:
@@ -187,6 +190,8 @@ class Event:
 
         return
 
+    # 如果是训练 + 测试集，则 encode 句子 + 注意力掩码 + 论元位置标签
+    # 如果是预测集，仅encode 句子 + 注意力掩码
     def __init__(self,
                  sentence: str,
                  trigger: str,
@@ -195,7 +200,8 @@ class Event:
                  time: str,
                  loc: str,
                  max_length: int,
-                 tokenizer):
+                 tokenizer,
+                 is_predict = False):
         self.m_sentence = sentence
         self.m_trigger = trigger
         self.m_object = object_str
@@ -205,12 +211,15 @@ class Event:
 
         self.m_max_length = max_length
 
-        self.encode_arguments(tokenizer)
+        
         self.encode_sentence(tokenizer)
-        # 设置标签
-        self.set_trigger_label_and_index()
-        self.set_object_subject_label()
-        self.set_time_loc_label()
+        if not is_predict:
+            self.encode_arguments(tokenizer)
+            # 设置标签
+            self.set_trigger_label_and_index()
+            self.set_object_subject_label()
+            self.set_time_loc_label()
+            
         return
 
 
@@ -246,7 +255,7 @@ class CorpusData:
                                 object_key='object',
                                 subject_key='subject',
                                 time_key='time',
-                                location_key='loc', ) -> List[Event]:
+                                location_key='loc' ) -> List[Event]:
 
         # 从 arguments 列表中抽取元素,
         def extract_event_arguments_from_list(event_arguments_list: list) -> dict:
@@ -390,6 +399,7 @@ class CorpusData:
             cached_file_name = cached_file_name + '.npy'
             corpus_data = np.load(cached_file_name, allow_pickle=True)
             print("数据加载完毕")
+            # print("共 %d 条语句" % corpus_data['input_ids'].shape[0] )
             return corpus_data
         # 从Json FILE中读取数组
         else:
@@ -415,6 +425,8 @@ class CorpusData:
                            'sub_obj_labels': sub_obj_labels,
                            'time_loc_labels': time_loc_labels}
             print("数据加载完毕")
+            print("语句数量： " + str(corpus_data['input_ids'].shape[0]) )
+            
             return corpus_data
 
 
@@ -619,22 +631,40 @@ def test_bert_model(sentences):
 
 
 if __name__ == "__main__":
-    raw_data_path = '../dataset/xf_2020_Corpus/final/raw_data/preliminary_data_pred_trigger_and_role.json'
-    sentence_set = CorpusData.load_json_file(raw_data_path)
-    sentences = CorpusData.json_list_extract_corpus_text(sentence_set, sentence_key='sentence')
-
-    print(sentences[0])
-
-    # tokenizer = BertTokenizer.from_pretrained(
-    #     "hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
-    # max_length = Config.sequence_length
-
-    # all_events = CorpusData.json_list_extract_event(sentence_set, max_length, tokenizer)
-    corpus_data = CorpusData.load_corpus_data(raw_data_path)
-    CorpusData.save_corpus_data(corpus_data,'../saved_model/preliminary_data_pred_trigger_and_role')
-    corpus_data_from_saved = CorpusData.load_corpus_data(load_data_from_cache=True,
-                                                         cached_file_name='../saved_model/preliminary_data_pred_trigger_and_role')
+    pass
+    # 拆分数据
+    raw_data_path = '../dataset/xf_2020_Corpus/final/EE2020/preliminary_data_pred_trigger_and_role.json'
+    data_set  = CorpusData.load_corpus_data(raw_data_path)
     print(0)
+    # sentence_set = CorpusData.load_json_file(raw_data_path)
+    # raw_length = len(sentence_set)
+    # test_size = int(0.2 * raw_length)
+    # train_set = sentence_set[test_size:-1]
+    # test_set = sentence_set[0:test_size]
+
+    # f1 = open('test.json', 'w')
+    # json.dump(test_set, f1,ensure_ascii=False,  indent=4)
+    # f1.close()
+
+    # f2 = open('train.json', 'w')
+    # json.dump(train_set, f2,ensure_ascii=False, indent=4)
+    # f2.close()
+
+
+    # sentences = CorpusData.json_list_extract_corpus_text(sentence_set, sentence_key='sentence')
+
+    # print(sentences[0])
+
+    # # tokenizer = BertTokenizer.from_pretrained(
+    # #     "hfl/chinese-roberta-wwm-ext", cache_dir="../saved_model/transformer_cached")
+    # # max_length = Config.sequence_length
+
+    # # all_events = CorpusData.json_list_extract_event(sentence_set, max_length, tokenizer)
+    # corpus_data = CorpusData.load_corpus_data(raw_data_path)
+    # CorpusData.save_corpus_data(corpus_data,'../saved_model/preliminary_data_pred_trigger_and_role')
+    # corpus_data_from_saved = CorpusData.load_corpus_data(load_data_from_cache=True,
+    #                                                      cached_file_name='../saved_model/preliminary_data_pred_trigger_and_role')
+    # print(0)
     # 这里的 main 函数仅作测试用，具体参数变量参考 Config 文件
     # dev_data_path = '../dataset/xf_2020_data/preliminary/raw_data/dev.json'
 

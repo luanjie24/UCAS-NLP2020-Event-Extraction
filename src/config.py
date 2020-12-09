@@ -6,8 +6,12 @@ class Config:
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # 看有没有gpu(cuda)，没有就用cpu
 
     # 数据集的路径 
-    dataset_train = '../dataset/xf_2020_Corpus/final/raw_data/preliminary_data_pred_trigger_and_role.json' # 总共576条数据
-    dataset_saved = '../saved_model/dev_data' # 数据预处理后的数据存在这里
+    # dataset_train = '../dataset/xf_2020_Corpus/final/raw_data/preliminary_data_pred_trigger_and_role.json' # 总共576条数据
+    # dataset_saved = '../saved_model/dev_data' # 数据预处理后的数据存在这里
+    # 训练集
+    dataset_train = '../dataset/xf_2020_Corpus/final/EE2020/train.json'
+    # 测试集
+    dataset_test = '../dataset/xf_2020_Corpus/final/EE2020/test.json'
 
     # 预训练模型所在路径
     bert_dir='../pretrained_model/chinese_roberta_wwm_ext_pytorch'
