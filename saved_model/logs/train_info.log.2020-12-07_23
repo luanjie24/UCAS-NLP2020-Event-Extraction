@@ -1,0 +1,418 @@
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 2
+  Total optimization steps = 20000
+Save model in 4000 steps; Eval model in 4000 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 20000 ----> total loss: 0.66757
+Step: 40 / 20000 ----> total loss: 0.66612
+Step: 60 / 20000 ----> total loss: 0.65970
+Step: 80 / 20000 ----> total loss: 0.65190
+Step: 100 / 20000 ----> total loss: 0.63710
+Step: 120 / 20000 ----> total loss: 0.61979
+Step: 140 / 20000 ----> total loss: 0.60090
+Step: 160 / 20000 ----> total loss: 0.57853
+Step: 180 / 20000 ----> total loss: 0.54996
+Step: 200 / 20000 ----> total loss: 0.51930
+Step: 220 / 20000 ----> total loss: 0.47377
+Step: 240 / 20000 ----> total loss: 0.42585
+Step: 260 / 20000 ----> total loss: 0.37424
+Step: 280 / 20000 ----> total loss: 0.31275
+Step: 300 / 20000 ----> total loss: 0.25047
+Step: 320 / 20000 ----> total loss: 0.19458
+Step: 340 / 20000 ----> total loss: 0.14085
+Step: 360 / 20000 ----> total loss: 0.10630
+Step: 380 / 20000 ----> total loss: 0.08276
+Step: 400 / 20000 ----> total loss: 0.07161
+Step: 420 / 20000 ----> total loss: 0.06451
+Step: 440 / 20000 ----> total loss: 0.05940
+Step: 460 / 20000 ----> total loss: 0.05487
+Step: 480 / 20000 ----> total loss: 0.05222
+Step: 500 / 20000 ----> total loss: 0.04954
+Step: 520 / 20000 ----> total loss: 0.04745
+Step: 540 / 20000 ----> total loss: 0.04552
+Step: 560 / 20000 ----> total loss: 0.04389
+Step: 580 / 20000 ----> total loss: 0.04246
+Step: 600 / 20000 ----> total loss: 0.04161
+Step: 620 / 20000 ----> total loss: 0.04014
+Step: 640 / 20000 ----> total loss: 0.03947
+Step: 660 / 20000 ----> total loss: 0.03820
+Step: 680 / 20000 ----> total loss: 0.03723
+Step: 700 / 20000 ----> total loss: 0.03648
+Step: 720 / 20000 ----> total loss: 0.03596
+Step: 740 / 20000 ----> total loss: 0.03524
+Step: 760 / 20000 ----> total loss: 0.03476
+Step: 780 / 20000 ----> total loss: 0.03385
+Step: 800 / 20000 ----> total loss: 0.03355
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 8
+  Total optimization steps = 5000
+Save model in 1000 steps; Eval model in 1000 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 5000 ----> total loss: 0.65286
+Step: 40 / 5000 ----> total loss: 0.63420
+Step: 60 / 5000 ----> total loss: 0.60041
+Step: 80 / 5000 ----> total loss: 0.54824
+Step: 100 / 5000 ----> total loss: 0.47014
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 32
+  Total optimization steps = 1250
+Save model in 250 steps; Eval model in 250 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 16
+  Total optimization steps = 2500
+Save model in 500 steps; Eval model in 500 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 2500 ----> total loss: 0.65614
+Step: 40 / 2500 ----> total loss: 0.62395
+Step: 60 / 2500 ----> total loss: 0.55778
+Step: 80 / 2500 ----> total loss: 0.44857
+Step: 100 / 2500 ----> total loss: 0.28501
+Step: 120 / 2500 ----> total loss: 0.14238
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 16
+  Total optimization steps = 2500
+Save model in 500 steps; Eval model in 500 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 2500 ----> total loss: 0.67604
+Step: 40 / 2500 ----> total loss: 0.64561
+Step: 60 / 2500 ----> total loss: 0.58109
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 20
+  Total optimization steps = 2000
+Save model in 400 steps; Eval model in 400 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 2000 ----> total loss: 0.57710
+Step: 40 / 2000 ----> total loss: 0.52936
+Step: 60 / 2000 ----> total loss: 0.42825
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 25
+  Total optimization steps = 1600
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 1600 ----> total loss: 0.60603
+Step: 40 / 1600 ----> total loss: 0.56146
+Step: 60 / 1600 ----> total loss: 0.46166
+Step: 80 / 1600 ----> total loss: 0.27670
+Step: 100 / 1600 ----> total loss: 0.09882
+Step: 120 / 1600 ----> total loss: 0.05297
+Step: 140 / 1600 ----> total loss: 0.04165
+Step: 160 / 1600 ----> total loss: 0.03649
+Step: 180 / 1600 ----> total loss: 0.03362
+Step: 200 / 1600 ----> total loss: 0.03153
+Step: 220 / 1600 ----> total loss: 0.03024
+Step: 240 / 1600 ----> total loss: 0.02927
+Step: 260 / 1600 ----> total loss: 0.02826
+Step: 280 / 1600 ----> total loss: 0.02753
+Step: 300 / 1600 ----> total loss: 0.02671
+Step: 320 / 1600 ----> total loss: 0.02552
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-320
+Step: 340 / 1600 ----> total loss: 0.02166
+Step: 360 / 1600 ----> total loss: 0.01872
+Step: 380 / 1600 ----> total loss: 0.01734
+Step: 400 / 1600 ----> total loss: 0.01578
+Step: 420 / 1600 ----> total loss: 0.01495
+Step: 440 / 1600 ----> total loss: 0.01415
+Step: 460 / 1600 ----> total loss: 0.01375
+Step: 480 / 1600 ----> total loss: 0.01300
+Step: 500 / 1600 ----> total loss: 0.01313
+Step: 520 / 1600 ----> total loss: 0.01209
+Step: 540 / 1600 ----> total loss: 0.01201
+Step: 560 / 1600 ----> total loss: 0.01137
+Step: 580 / 1600 ----> total loss: 0.01093
+Step: 600 / 1600 ----> total loss: 0.01120
+Step: 620 / 1600 ----> total loss: 0.01030
+Step: 640 / 1600 ----> total loss: 0.01020
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-640
+Step: 660 / 1600 ----> total loss: 0.00988
+Step: 680 / 1600 ----> total loss: 0.00983
+Step: 700 / 1600 ----> total loss: 0.00957
+Step: 720 / 1600 ----> total loss: 0.00986
+Step: 740 / 1600 ----> total loss: 0.00946
+Step: 760 / 1600 ----> total loss: 0.00865
+Step: 780 / 1600 ----> total loss: 0.00939
+Step: 800 / 1600 ----> total loss: 0.00879
+Step: 820 / 1600 ----> total loss: 0.00891
+Step: 840 / 1600 ----> total loss: 0.00934
+Step: 860 / 1600 ----> total loss: 0.00881
+Step: 880 / 1600 ----> total loss: 0.00904
+Step: 900 / 1600 ----> total loss: 0.00837
+Step: 920 / 1600 ----> total loss: 0.00844
+Step: 940 / 1600 ----> total loss: 0.00861
+Step: 960 / 1600 ----> total loss: 0.00851
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-960
+Step: 980 / 1600 ----> total loss: 0.00857
+Step: 1000 / 1600 ----> total loss: 0.00857
+Step: 1020 / 1600 ----> total loss: 0.00858
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 25
+  Total optimization steps = 1600
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 1600 ----> total loss: 0.65889
+Step: 40 / 1600 ----> total loss: 0.60515
+Step: 60 / 1600 ----> total loss: 0.48844
+Step: 80 / 1600 ----> total loss: 0.30827
+Step: 100 / 1600 ----> total loss: 0.13590
+Step: 120 / 1600 ----> total loss: 0.07535
+Step: 140 / 1600 ----> total loss: 0.05712
+Step: 160 / 1600 ----> total loss: 0.04912
+Step: 180 / 1600 ----> total loss: 0.04389
+Step: 200 / 1600 ----> total loss: 0.04034
+Step: 220 / 1600 ----> total loss: 0.03773
+Step: 240 / 1600 ----> total loss: 0.03562
+Step: 260 / 1600 ----> total loss: 0.03408
+Step: 280 / 1600 ----> total loss: 0.03270
+Step: 300 / 1600 ----> total loss: 0.03158
+Step: 320 / 1600 ----> total loss: 0.03078
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-320
+Step: 340 / 1600 ----> total loss: 0.02991
+Step: 360 / 1600 ----> total loss: 0.02916
+Step: 380 / 1600 ----> total loss: 0.02857
+Step: 400 / 1600 ----> total loss: 0.02803
+Step: 420 / 1600 ----> total loss: 0.02745
+Step: 440 / 1600 ----> total loss: 0.02659
+Step: 460 / 1600 ----> total loss: 0.02539
+Step: 480 / 1600 ----> total loss: 0.02389
+Step: 500 / 1600 ----> total loss: 0.02131
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 25
+  Total optimization steps = 1600
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 25
+  Total optimization steps = 1600
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 5
+  Total training batch size = 25
+  Total optimization steps = 1600
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 1600 ----> total loss: 0.62247
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 3200 ----> total loss: 0.74000
+Step: 40 / 3200 ----> total loss: 0.71374
+Step: 60 / 3200 ----> total loss: 0.65719
+Step: 80 / 3200 ----> total loss: 0.57041
+Step: 100 / 3200 ----> total loss: 0.45134
+Step: 120 / 3200 ----> total loss: 0.29570
+Step: 140 / 3200 ----> total loss: 0.17230
+Step: 160 / 3200 ----> total loss: 0.12537
+Step: 180 / 3200 ----> total loss: 0.10550
+Step: 200 / 3200 ----> total loss: 0.09387
+Step: 220 / 3200 ----> total loss: 0.08309
+Step: 240 / 3200 ----> total loss: 0.07510
+Step: 260 / 3200 ----> total loss: 0.06861
+Step: 280 / 3200 ----> total loss: 0.06351
+Step: 300 / 3200 ----> total loss: 0.05913
+Step: 320 / 3200 ----> total loss: 0.05512
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-320
+Step: 340 / 3200 ----> total loss: 0.05157
+Step: 360 / 3200 ----> total loss: 0.04846
+Step: 380 / 3200 ----> total loss: 0.04570
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 3200 ----> total loss: 0.65640
+Step: 40 / 3200 ----> total loss: 0.62726
+Step: 60 / 3200 ----> total loss: 0.56535
+Step: 80 / 3200 ----> total loss: 0.45931
+Step: 100 / 3200 ----> total loss: 0.30272
+Step: 120 / 3200 ----> total loss: 0.13488
+Step: 140 / 3200 ----> total loss: 0.06107
+Step: 160 / 3200 ----> total loss: 0.04472
+Step: 180 / 3200 ----> total loss: 0.03867
+Step: 200 / 3200 ----> total loss: 0.03539
+Step: 220 / 3200 ----> total loss: 0.03317
+Step: 240 / 3200 ----> total loss: 0.03154
+Step: 260 / 3200 ----> total loss: 0.03011
+Step: 280 / 3200 ----> total loss: 0.02910
+Step: 300 / 3200 ----> total loss: 0.02817
+Step: 320 / 3200 ----> total loss: 0.02715
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-320
+Step: 340 / 3200 ----> total loss: 0.02543
+Step: 360 / 3200 ----> total loss: 0.02150
+Step: 380 / 3200 ----> total loss: 0.01851
+Step: 400 / 3200 ----> total loss: 0.01713
+Step: 420 / 3200 ----> total loss: 0.01642
+Step: 440 / 3200 ----> total loss: 0.01513
+Step: 460 / 3200 ----> total loss: 0.01402
+Step: 480 / 3200 ----> total loss: 0.01290
+Step: 500 / 3200 ----> total loss: 0.01237
+Step: 520 / 3200 ----> total loss: 0.01153
+Step: 540 / 3200 ----> total loss: 0.01123
+Step: 560 / 3200 ----> total loss: 0.01126
+Step: 580 / 3200 ----> total loss: 0.01046
+Step: 600 / 3200 ----> total loss: 0.01052
+Step: 620 / 3200 ----> total loss: 0.01037
+Step: 640 / 3200 ----> total loss: 0.00999
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-640
+Step: 660 / 3200 ----> total loss: 0.00950
+Step: 680 / 3200 ----> total loss: 0.00930
+Step: 700 / 3200 ----> total loss: 0.00962
+Step: 720 / 3200 ----> total loss: 0.00932
+Step: 740 / 3200 ----> total loss: 0.00920
+Step: 760 / 3200 ----> total loss: 0.00860
+Step: 780 / 3200 ----> total loss: 0.00889
+Step: 800 / 3200 ----> total loss: 0.00915
+Step: 820 / 3200 ----> total loss: 0.00838
+Step: 840 / 3200 ----> total loss: 0.00825
+Step: 860 / 3200 ----> total loss: 0.00829
+Step: 880 / 3200 ----> total loss: 0.00855
+Step: 900 / 3200 ----> total loss: 0.00780
+Step: 920 / 3200 ----> total loss: 0.00824
+Step: 940 / 3200 ----> total loss: 0.00806
+Step: 960 / 3200 ----> total loss: 0.00796
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-960
+Step: 980 / 3200 ----> total loss: 0.00748
+Step: 1000 / 3200 ----> total loss: 0.00765
+Step: 1020 / 3200 ----> total loss: 0.00738
+Step: 1040 / 3200 ----> total loss: 0.00796
+Step: 1060 / 3200 ----> total loss: 0.00746
+Step: 1080 / 3200 ----> total loss: 0.00808
+Step: 1100 / 3200 ----> total loss: 0.00735
+Step: 1120 / 3200 ----> total loss: 0.00808
+Step: 1140 / 3200 ----> total loss: 0.00713
+Step: 1160 / 3200 ----> total loss: 0.00719
+Step: 1180 / 3200 ----> total loss: 0.00754
+Step: 1200 / 3200 ----> total loss: 0.00742
+Step: 1220 / 3200 ----> total loss: 0.00733
+Step: 1240 / 3200 ----> total loss: 0.00744
+Step: 1260 / 3200 ----> total loss: 0.00724
+Step: 1280 / 3200 ----> total loss: 0.00697
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-1280
+Step: 1300 / 3200 ----> total loss: 0.00716
+Step: 1320 / 3200 ----> total loss: 0.00694
+Step: 1340 / 3200 ----> total loss: 0.00665
+Step: 1360 / 3200 ----> total loss: 0.00715
+Step: 1380 / 3200 ----> total loss: 0.00638
+Step: 1400 / 3200 ----> total loss: 0.00656
+Step: 1420 / 3200 ----> total loss: 0.00657
+Step: 1440 / 3200 ----> total loss: 0.00645
+Step: 1460 / 3200 ----> total loss: 0.00688
+Step: 1480 / 3200 ----> total loss: 0.00676
+Step: 1500 / 3200 ----> total loss: 0.00691
+Step: 1520 / 3200 ----> total loss: 0.00658
+Step: 1540 / 3200 ----> total loss: 0.00683
+Step: 1560 / 3200 ----> total loss: 0.00726
+Step: 1580 / 3200 ----> total loss: 0.00639
+Step: 1600 / 3200 ----> total loss: 0.00661
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-1600
+Step: 1620 / 3200 ----> total loss: 0.00592
+Step: 1640 / 3200 ----> total loss: 0.00596
+Step: 1660 / 3200 ----> total loss: 0.00627
+Step: 1680 / 3200 ----> total loss: 0.00597
+Step: 1700 / 3200 ----> total loss: 0.00643
+Step: 1720 / 3200 ----> total loss: 0.00610
+Step: 1740 / 3200 ----> total loss: 0.00633
+Step: 1760 / 3200 ----> total loss: 0.00640
+Step: 1780 / 3200 ----> total loss: 0.00636
+Step: 1800 / 3200 ----> total loss: 0.00642
+Step: 1820 / 3200 ----> total loss: 0.00596
+Step: 1840 / 3200 ----> total loss: 0.00636
+Step: 1860 / 3200 ----> total loss: 0.00644
+Step: 1880 / 3200 ----> total loss: 0.00637
+Step: 1900 / 3200 ----> total loss: 0.00643
+Step: 1920 / 3200 ----> total loss: 0.00664
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-1920
+Step: 1940 / 3200 ----> total loss: 0.00607
+Step: 1960 / 3200 ----> total loss: 0.00631
+Step: 1980 / 3200 ----> total loss: 0.00600
+Step: 2000 / 3200 ----> total loss: 0.00598
+Step: 2020 / 3200 ----> total loss: 0.00595
+Step: 2040 / 3200 ----> total loss: 0.00555
+Step: 2060 / 3200 ----> total loss: 0.00575
+Step: 2080 / 3200 ----> total loss: 0.00594
+Step: 2100 / 3200 ----> total loss: 0.00615
+Step: 2120 / 3200 ----> total loss: 0.00603
+Step: 2140 / 3200 ----> total loss: 0.00595
+Step: 2160 / 3200 ----> total loss: 0.00570
+Step: 2180 / 3200 ----> total loss: 0.00559
+Step: 2200 / 3200 ----> total loss: 0.00623
+Step: 2220 / 3200 ----> total loss: 0.00574
+Step: 2240 / 3200 ----> total loss: 0.00597
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-2240
+Step: 2260 / 3200 ----> total loss: 0.00581
+Step: 2280 / 3200 ----> total loss: 0.00592
+Step: 2300 / 3200 ----> total loss: 0.00603
+Step: 2320 / 3200 ----> total loss: 0.00569
+Step: 2340 / 3200 ----> total loss: 0.00603
+Step: 2360 / 3200 ----> total loss: 0.00553
+Step: 2380 / 3200 ----> total loss: 0.00583
+Step: 2400 / 3200 ----> total loss: 0.00532
+Step: 2420 / 3200 ----> total loss: 0.00580
+Step: 2440 / 3200 ----> total loss: 0.00567
+Step: 2460 / 3200 ----> total loss: 0.00534
+Step: 2480 / 3200 ----> total loss: 0.00531
+Step: 2500 / 3200 ----> total loss: 0.00577
+Step: 2520 / 3200 ----> total loss: 0.00594
+Step: 2540 / 3200 ----> total loss: 0.00565
+Step: 2560 / 3200 ----> total loss: 0.00549
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-2560
+Step: 2580 / 3200 ----> total loss: 0.00578
+Step: 2600 / 3200 ----> total loss: 0.00546
+Step: 2620 / 3200 ----> total loss: 0.00538
+Step: 2640 / 3200 ----> total loss: 0.00541
+Step: 2660 / 3200 ----> total loss: 0.00554
+Step: 2680 / 3200 ----> total loss: 0.00534
+Step: 2700 / 3200 ----> total loss: 0.00548
+Step: 2720 / 3200 ----> total loss: 0.00564
+Step: 2740 / 3200 ----> total loss: 0.00571
+Step: 2760 / 3200 ----> total loss: 0.00502
+Step: 2780 / 3200 ----> total loss: 0.00560
+Step: 2800 / 3200 ----> total loss: 0.00520
+Step: 2820 / 3200 ----> total loss: 0.00551
+Step: 2840 / 3200 ----> total loss: 0.00546
+Step: 2860 / 3200 ----> total loss: 0.00553
+Step: 2880 / 3200 ----> total loss: 0.00586
+Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-2880
+Step: 2900 / 3200 ----> total loss: 0.00527
+Step: 2920 / 3200 ----> total loss: 0.00554
+Step: 2940 / 3200 ----> total loss: 0.00542
+Step: 2960 / 3200 ----> total loss: 0.00559
+Step: 2980 / 3200 ----> total loss: 0.00536
+Step: 3000 / 3200 ----> total loss: 0.00514
+Step: 3020 / 3200 ----> total loss: 0.00563
+Step: 3040 / 3200 ----> total loss: 0.00563
+Step: 3060 / 3200 ----> total loss: 0.00522

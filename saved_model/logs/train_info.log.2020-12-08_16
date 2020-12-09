@@ -1,0 +1,71 @@
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 3200 ----> total loss: 0.67562
+Step: 40 / 3200 ----> total loss: 0.64534
+Step: 60 / 3200 ----> total loss: 0.58539
+Step: 80 / 3200 ----> total loss: 0.48537
+Step: 100 / 3200 ----> total loss: 0.33635
+Step: 120 / 3200 ----> total loss: 0.16930
+Step: 140 / 3200 ----> total loss: 0.08576
+Step: 160 / 3200 ----> total loss: 0.06104
+Step: 180 / 3200 ----> total loss: 0.05146
+Step: 200 / 3200 ----> total loss: 0.04636
+Step: 220 / 3200 ----> total loss: 0.04249
+Step: 240 / 3200 ----> total loss: 0.03907
+Step: 260 / 3200 ----> total loss: 0.03642
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TriggerExtractor
+Step: 20 / 3200 ----> total loss: 0.71706
+Step: 40 / 3200 ----> total loss: 0.68677
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/SubObjExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/SubObjExtractor
+********** Running training **********
+  Num Examples = 7999
+  Num Epochs = 10
+  Total training batch size = 25
+  Total optimization steps = 3200
+Save model in 320 steps; Eval model in 320 steps
+Save model at ../saved_model/models/TimeLocExtractor
