@@ -1,12 +1,5 @@
 # coding=utf-8
-"""
-@author: Oscar
-@license: (C) Copyright 2019-2022, ZJU.
-@contact: 499616042@qq.com
-@software: pycharm
-@file: dataset_utils.py
-@time: 2020/9/1 21:34
-"""
+
 import torch
 from torch.utils.data import Dataset
 

@@ -1,12 +1,5 @@
 # coding=utf-8
-"""
-@author: Oscar
-@license: (C) Copyright 2019-2022, ZJU.
-@contact: 499616042@qq.com
-@software: pycharm
-@file: evaluator.py
-@time: 2020/9/2 15:19
-"""
+
 import torch
 import logging
 import numpy as np

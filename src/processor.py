@@ -1,12 +1,5 @@
 # coding=utf-8
-"""
-@author: Oscar
-@license: (C) Copyright 2019-2022, ZJU.
-@contact: 499616042@qq.com
-@software: pycharm
-@file: processor.py
-@time: 2020/9/1 10:52
-"""
+
 import json
 import random
 import logging
