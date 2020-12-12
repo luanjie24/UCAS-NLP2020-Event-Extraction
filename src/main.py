@@ -43,25 +43,25 @@ def main(num: int):
         # 如果有多显卡
         # https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html
         # 
+
+
         # if torch.cuda.device_count() > 1:
         #     print("Let's use", torch.cuda.device_count(), "GPUs!")
         #     # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
         #     trigger_extractor = nn.DataParallel(trigger_extractor)
 
         trigger_extractor.to(Config.device)
-        train.train(trigger_extractor, train_dataset, Config.saved_trigger_extractor_dir)
+        train.train(trigger_extractor, train_dataset, Config.saved_trigger_extractor_dir,num)
     elif num==2:
         train_dataset = TensorDataset(input_ids, trigger_index, attention_masks, sub_obj_labels)
         sub_obj_extractor = SubObjExtractor()
         sub_obj_extractor.to(Config.device)
-        
-        train.train(sub_obj_extractor, train_dataset, Config.saved_sub_obj_extractor_dir)
+        train.train(sub_obj_extractor, train_dataset, Config.saved_sub_obj_extractor_dir,num)
     elif num==3:
         train_dataset = TensorDataset(input_ids, trigger_index, attention_masks, time_loc_labels)
         time_loc_extractor = TimeLocExtractor()
         time_loc_extractor.to(Config.device)
-        print(trigger_index)
-        train.train(time_loc_extractor, train_dataset, Config.saved_time_loc_extractor_dir)
+        train.train(time_loc_extractor, train_dataset, Config.saved_time_loc_extractor_dir,num)
     else:
         raise ValueError("编号错误")
 

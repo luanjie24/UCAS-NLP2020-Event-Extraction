@@ -13,6 +13,11 @@ from config import Config
 from model import TriggerExtractor, SubObjExtractor, TimeLocExtractor
 from load_data import CorpusData
 
+from evaluator import trigger_evaluation, role1_evaluation, role2_evaluation, attribution_evaluation
+from torch.autograd import Variable
+
+from processor import *
+from dataset_utils import build_dataset
 
 # 将训练日志输出到控制台和文件
 logger=logging.getLogger("train_info")
@@ -71,11 +76,11 @@ def build_optimizer_and_scheduler(model, t_total):
     return optimizer, scheduler
 
 
-def save_model(model, global_step, saved_dir):
+def save_model(model, global_step, saved_dir,is_best):
     output_dir = os.path.join(saved_dir, 'checkpoint-{}'.format(global_step))
     if not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
-
+    
     # take care of model distributed / parallel training
     model_to_save = (
         model.module if hasattr(model, "module") else model
@@ -83,11 +88,49 @@ def save_model(model, global_step, saved_dir):
     logger.info(f'Saving model & optimizer & scheduler checkpoint to {output_dir}')
     torch.save(model_to_save.state_dict(), os.path.join(output_dir, 'model.pt'))
 
+    if is_best:
+        output_best_dir = os.path.join(saved_dir, 'best_checkpoint-{}'.format(global_step))
+        if not os.path.exists(output_best_dir):
+            os.makedirs(output_best_dir, exist_ok=True)
+        torch.save(model_to_save.state_dict(), os.path.join(output_best_dir, 'model.pt'))
 
 
-def train(model, train_dataset, save_model_dir):
+def validate(model,num):
+    processors = {1: TriggerProcessor,
+                  2: RoleProcessor,
+                  3: RoleProcessor}
+
+    processor = processors[num]()
+    dev_raw_examples = processor.read_json(Config.dataset_dev)
+    dev_examples, dev_callback_info = processor.get_dev_examples(dev_raw_examples)
+    dev_features = convert_examples_to_features(num, dev_examples, Config.bert_dir,
+                                                Config.sequence_length)
+    
+    dev_dataset = build_dataset(num, dev_features,
+                                mode='dev')
+    dev_loader = DataLoader(dev_dataset, batch_size=Config.dev_batch_size,
+                            shuffle=False, num_workers=8)
+    dev_info = (dev_loader, dev_callback_info)
+
+    # model = build_model(opt.task_type, opt.bert_dir, **model_para)
+    if num == 1:
+        tmp_metric_str, tmp_f1 = trigger_evaluation(model, dev_info, Config.device,
+                                                        start_threshold=Config.start_threshold,
+                                                        end_threshold=Config.end_threshold)
+    elif num == 2:
+        tmp_metric_str, tmp_f1 = role1_evaluation(model, dev_info, Config.device,
+                                                        start_threshold=Config.start_threshold,
+                                                        end_threshold=Config.end_threshold)
+    elif num == 3:
+        tmp_metric_str, tmp_f1 = role2_evaluation(model, dev_info, Config.device)
+    else:
+        print('error model')
+    print('tmp_f1:\t',tmp_f1)
+    return tmp_f1
+
+def train(model, train_dataset, save_model_dir,num):
     train_sampler = RandomSampler(train_dataset) # 打乱顺序，sampler为取样本的策略，功能应该和shuffle差不多
-    train_loader = DataLoader(dataset=train_dataset,
+    train_loader = DataLoader(dataset = train_dataset,
                               batch_size=Config.train_batch_size,
                               sampler=train_sampler,
                               num_workers=Config.num_workers)
@@ -119,9 +162,11 @@ def train(model, train_dataset, save_model_dir):
     logger.info(f"  Total optimization steps = {t_total}")
     logger.info(f'Save model in {save_steps} steps; Eval model in {eval_steps} steps')
     logger.info(f'Save model at {save_model_dir}')
-    
+    f1 = 0.
+    max_F1 = 0.
     for epoch in range(Config.train_epochs):
-
+        is_best = False
+        f1  = 0.
         for step, batch_data in enumerate(train_loader):
 
             # 数据运算迁移到GPU
@@ -151,8 +196,15 @@ def train(model, train_dataset, save_model_dir):
                 avg_loss += loss.item() 
 
             # 每save_steps存一次模型
-            if global_step % save_steps == 0:
-                save_model(model, global_step, save_model_dir)
+            # if global_step % save_steps == 0:
+            #     save_model(model, global_step, save_model_dir)
+
+        f1 = validate(model,num)
+        if f1 > max_F1:
+            is_best = True
+            max_F1 = f1
+        
+        save_model(model, global_step, save_model_dir,is_best)
 
     # 释放显存
     torch.cuda.empty_cache()

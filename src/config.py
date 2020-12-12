@@ -10,6 +10,7 @@ class Config:
     # dataset_saved = '../saved_model/dev_data' # 数据预处理后的数据存在这里
     # 训练集
     dataset_train = '../dataset/xf_2020_Corpus/final/EE2020/train.json'
+    dataset_dev = '../dataset/xf_2020_Corpus/final/EE2020/dev.json'
     # 测试集
     dataset_test = '../dataset/xf_2020_Corpus/final/EE2020/test.json'
 
@@ -24,6 +25,7 @@ class Config:
     saved_log_dir='../saved_model/logs/train_info.log'
     # 参数
     train_batch_size = 25
+    dev_batch_size = 25
     train_epochs = 10
     sequence_length = 256 # 每句话的长度，不到这个长度就padding
     trigger_extractor_mid_linear_dims = 128 # 这个是触发词提取模型的线性层的输出维度
@@ -36,6 +38,9 @@ class Config:
     warmup_proportion = 0.1 # scheduler慢热学习的比例，貌似用0.的1比较多
     max_grad_norm = 1.0 # 大于1的梯度将其设为1.0, 以防梯度爆炸
     num_workers = 0 # 训练是否开多线程，这块我电脑不是0会报错
+
+    start_threshold = 0.01
+    end_threshold = 1
     
 
 

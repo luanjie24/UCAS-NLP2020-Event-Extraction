@@ -12,6 +12,7 @@ class TriggerExtractor(nn.Module):
 
         # BERT层
         self.bert_model = BertModel.from_pretrained(Config.bert_dir, cache_dir=Config.bert_cache_dir)
+        self.bert_model.eval()
         self.bert_config = self.bert_model.config
         for param in self.bert_model.parameters():
             param.requires_grad = True # 微调时是否调BERT，True的话就调
@@ -50,8 +51,8 @@ class TriggerExtractor(nn.Module):
     def forward(self, input_tensor, attention_mask=None, labels=None):
         # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
         # attention_mask shape:(Config.train_batch_size, Config.sequence_length)
-        embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask)
-
+        embedding_output =self.bert_model(input_tensor, attention_mask=attention_mask)
+        
         # 这块貌似就取第一句话的特征，这样输入batch个句子最后只输出一个句子的结果，不知道参考代码为什么这么做，舍弃了
         # seq_out = embedding_output[0,:,:] # shape:(Config.sequence_length, hidden_size) 
         # print(embedding_output[0,:,:].shape)
@@ -65,8 +66,9 @@ class TriggerExtractor(nn.Module):
             distant_trigger_feature = self.distant_trigger_embedding(distant_trigger)
             seq_out = torch.cat([seq_out, distant_trigger_feature], dim=-1)
         '''
-
-        seq_out = self.mid_linear(embedding_output) # shape:(Config.train_batch_size, Config.sequence_length, Config.trigger_extractor_mid_linear_dims)
+       
+        #print(embedding_output)
+        seq_out = self.mid_linear(embedding_output[0]) # shape:(Config.train_batch_size, Config.sequence_length, Config.trigger_extractor_mid_linear_dims)
         # print(seq_out.shape) 
 
         # 分类器 2列，第一列表示这个字是不是trigger的起始字，第二列表示这个字是不是trigger的终止字
@@ -169,8 +171,7 @@ class SubObjExtractor(nn.Module):
         # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
         # embedding_output shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
         embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask) 
-        # print(len(input_tensor),  len(trigger_index) )
-        # print(trigger_index)
+
         # 将embedding融合trigger的特征
         # trigger_index shape:(Config.train_batch_size, n) trigger_index应该是trigger第一个字和最后一个字在文本中的位置（n应该永远等于2）
         trigger_label_feature = self._batch_gather(embedding_output, trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)
