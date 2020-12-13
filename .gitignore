@@ -133,3 +133,6 @@ dmypy.json
 .pyre/
 reference_project/2020-IFLYTEK.AI-Event-Extraction-Challenge
 pretrained_model/chinese_roberta_wwm_ext_pytorch/pytorch_model.bin
+
+.vscode/
+.idea/

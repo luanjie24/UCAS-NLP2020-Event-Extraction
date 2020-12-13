@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>事件抽取</title>
+    <style>
+        .header {
+            height: 200px;
+        }
+
+        .content {
+            height: 400px;
+        }
+
+        .footer {
+            height: 100px;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        .logo {
+            background-color: skyblue;
+            height: 120px;
+        }
+
+        input[type=text] {
+            width: 400px;
+            height: 30px;
+        }
+
+        input[type=submit] {
+            width: 80px;
+            height: 30px;
+        }
+
+        .content_form {
+            height: 120px;
+        }
+
+        body {
+            font-size: 16px;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 1.7rem;
+            color: #3D93EA;
+            font-family: Youyuan;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <div>
+        <img src="{% static 'images/blues.jpg' %}" alt="" class="logo">
+    </div>
+    <div>
+        <h1>小蓝和他的朋友们</h1>
+    </div>
+</div>
+
+<div class="content">
+    <div class="content_form">
+        {#        <style>#}
+        {#            　　text-align:justify;#}
+        {#            　　text-justify:inter-ideograph;#}
+        {#        </style>#}
+        <form action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            <p>输入:
+                <input type="text" name="input" value="{{ input }}"/>
+            </p>
+            <input type="submit" value="分析"/>
+            <p></p>
+        </form>
+        <p>触发词:
+            <input type="text" name="output1" value="{{ output1 }}" readonly="readonly"/>
+        </p>
+        <p>主体:
+            <input type="text" name="output2" value="{{ output2 }}" readonly="readonly"/>
+        </p>
+        <p>客体:
+            <input type="text" name="output3" value="{{ output3 }}" readonly="readonly"/>
+        </p>
+        <p>时间:
+            <input type="text" name="output4" value="{{ output4 }}" readonly="readonly"/>
+        </p>
+        <p>地点:
+            <input type="text" name="output5" value="{{ output5 }}" readonly="readonly"/>
+        </p>
+    </div>
+</div>
+
+<div class="footer">
+    <div>
+        @2020TheBlues，事件抽取
+    </div>
+</div>
+</body>
+</html>
+
+
