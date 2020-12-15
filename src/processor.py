@@ -1,5 +1,12 @@
 # coding=utf-8
-
+"""
+@author: Oscar
+@license: (C) Copyright 2019-2022, ZJU.
+@contact: 499616042@qq.com
+@software: pycharm
+@file: processor.py
+@time: 2020/9/1 10:52
+"""
 import json
 import random
 import logging
@@ -647,7 +654,6 @@ def convert_examples_to_features(task_type, examples, bert_dir, max_seq_len):
     logger.info(f'Vocab nums in this tokenizer is: {tokenizer.vocab_size}')
 
     features = []
-
     for i, example in enumerate(tqdm(examples, desc=f'convert examples')):
         if task_type == 1:
             feature = convert_trigger_example(
@@ -658,6 +664,8 @@ def convert_examples_to_features(task_type, examples, bert_dir, max_seq_len):
             )
 
         elif task_type == 2:
+            # print('----------------convert role1 example------------')
+            # print(example.text)
             feature = convert_role1_example(
                 ex_idx=i,
                 example=example,
@@ -666,6 +674,8 @@ def convert_examples_to_features(task_type, examples, bert_dir, max_seq_len):
             )
 
         elif task_type == 3:
+            # print('----------------convert role2 example------------')
+            # print(example.text)
             feature = convert_role2_example(
                 ex_idx=i,
                 example=example,

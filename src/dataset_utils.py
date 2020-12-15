@@ -1,5 +1,7 @@
 # coding=utf-8
+"""
 
+"""
 import torch
 from torch.utils.data import Dataset
 
@@ -66,13 +68,14 @@ class RoleDataset(BaseDataset):
         data = {'token_ids': self.token_ids[index],
                 'attention_masks': self.attention_masks[index],
                 'token_type_ids': self.token_type_ids[index],
-                'trigger_index': self.trigger_label[index]}
+                'trigger_index': self.trigger_label[index],
+                'labels':self.labels[index]}
 
-        if self.trigger_distance is not None:
-            data['trigger_distance'] = self.trigger_distance[index]
+        # if self.trigger_distance is not None:
+        #     data['trigger_distance'] = self.trigger_distance[index]
 
-        if self.labels is not None:
-            data['labels'] = self.labels[index]
+        # if self.labels is not None:
+        #     data['labels'] = self.labels[index]
 
         return data
 
@@ -105,7 +108,7 @@ def build_dataset(num, features, mode):
 
     if num == 1:
         dataset = TriggerDataset(features, mode)
-    elif num in [1, 2]:
+    elif num in [2, 3]:
         dataset = RoleDataset(features, mode)
 
     else:

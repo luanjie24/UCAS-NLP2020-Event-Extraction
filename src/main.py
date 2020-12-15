@@ -5,7 +5,6 @@ main.py目前是对train.py的进一步封装，方便训练
     2.我的PC只有一个GPU，所以目前的实验是单GPU训练，如果改为多GPU可参考https://blog.csdn.net/daydayjump/article/details/81158777
     3.包括调参和多GPU训练在内的代码改动尽量只改动config.py，如果要改其他文件可以先和我说一下
     4.训练集还可以扩充
-    5.模型1预处理部分有bug，模型2，3预处理部分还没写完
 
 """
 
@@ -19,7 +18,7 @@ from load_data import CorpusData
 import argparse
 
 
-def main(num: int):
+def main(num:int):
   
 
     # if torch.cuda.device_count() > 1:

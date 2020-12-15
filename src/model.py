@@ -170,22 +170,22 @@ class SubObjExtractor(nn.Module):
     def forward(self, input_tensor, trigger_index, attention_mask,  labels=None):
         # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
         # embedding_output shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
-        embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask) 
-
+        embedding_output = self.bert_model(input_tensor, attention_mask=attention_mask) 
+       
         # 将embedding融合trigger的特征
         # trigger_index shape:(Config.train_batch_size, n) trigger_index应该是trigger第一个字和最后一个字在文本中的位置（n应该永远等于2）
-        trigger_label_feature = self._batch_gather(embedding_output, trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)
+        trigger_label_feature = self._batch_gather(embedding_output[0], trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)
         trigger_label_feature = trigger_label_feature.view([trigger_label_feature.size()[0], -1]) # shape (Config.train_batch_size, n*bert_hidden_size) 
         # 放到Conditional Layer Normalization层
         # trigger_index shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
-        seq_out = self.conditional_layer_norm(embedding_output, trigger_label_feature)
+        seq_out = self.conditional_layer_norm(embedding_output[0], trigger_label_feature)
 
         '''
         融合trigger特征这一层先跳过
         '''
 
         seq_out = self.mid_linear(seq_out) # shape: (Config.train_batch_size, Config.sequence_length, Config.sbj_obj_extractor_mid_linear_dims)
-
+        # seq_out = self.mid_linear(embedding_output[0])
         obj_logits = self.activation(self.obj_classifier(seq_out)) # shape: (Config.train_batch_size, Config.sequence_length, 2)
         sub_logits = self.activation(self.sub_classifier(seq_out)) # shape: (Config.train_batch_size, Config.sequence_length, 2)
 
@@ -255,30 +255,29 @@ class TimeLocExtractor(nn.Module):
     def forward(self, input_tensor, trigger_index, attention_mask,  labels=None):
         # input_tensor shape: (Config.train_batch_size, Config.sequence_length)
         # embedding_output shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
-        embedding_output, _ = self.bert_model(input_tensor, attention_mask=attention_mask) 
+        embedding_output = self.bert_model(input_tensor, attention_mask=attention_mask) 
 
         # 将embedding融合trigger的特征
         # trigger_index shape:(Config.train_batch_size, n) trigger_index应该是trigger第一个字和最后一个字在文本中的位置（n应该永远等于2）
-        trigger_label_feature = self._batch_gather(embedding_output, trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)
-        trigger_label_feature = trigger_label_feature.view([trigger_label_feature.size()[0], -1]) # shape (Config.train_batch_size, n*bert_hidden_size) 
+        # trigger_label_feature = self._batch_gather(embedding_output[0], trigger_index) # shape (Config.train_batch_size, n, bert_hidden_size)
+        # trigger_label_feature = trigger_label_feature.view([trigger_label_feature.size()[0], -1]) # shape (Config.train_batch_size, n*bert_hidden_size) 
         # 放到Conditional Layer Normalization层
         # trigger_index shape:(Config.train_batch_size, Config.sequence_length, bert_hidden_size)
-        seq_out = self.conditional_layer_norm(embedding_output, trigger_label_feature)
+        # seq_out = self.conditional_layer_norm(embedding_output[0], trigger_label_feature)
 
         '''
         融合trigger特征这一层先跳过
         '''
 
-        seq_out = self.mid_linear(seq_out) # shape: (Config.train_batch_size, Config.sequence_length, Config.sbj_obj_extractor_mid_linear_dims)
+        # seq_out = self.mid_linear(seq_out) # shape: (Config.train_batch_size, Config.sequence_length, Config.sbj_obj_extractor_mid_linear_dims)
 
-        
+        seq_out = self.mid_linear(embedding_output[0])
         emissions = self.classifier(seq_out) # shape: (Config.train_batch_size, Config.sequence_length, 10) 
         if labels is not None:
             tokens_loss = -1. * self.crf_module(emissions=emissions,
                                                 tags=labels.long(),
                                                 mask=attention_mask.byte(),
                                                 reduction='mean')
-
             out = (tokens_loss,)
 
         else:

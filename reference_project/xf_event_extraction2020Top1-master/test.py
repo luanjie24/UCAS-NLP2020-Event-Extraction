@@ -75,6 +75,8 @@ def pipeline_predict(opt):
     start_threshold = opt.role1_start_threshold
     end_threshold = opt.role1_end_threshold
 
+
+    #暂时不需要
     with open(os.path.join(opt.mid_data_dir, f'polarity2id.json'), encoding='utf-8') as f:
         polarity2id = json.load(f)
     with open(os.path.join(opt.mid_data_dir, f'tense2id.json'), encoding='utf-8') as f:
@@ -86,6 +88,8 @@ def pipeline_predict(opt):
     id2polarity = {polarity2id[key]: key for key in polarity2id.keys()}
     id2tense = {tense2id[key]: key for key in tense2id.keys()}
 
+
+    #从这里开始
     counts = 0
     with torch.no_grad():
         trigger_model.eval()

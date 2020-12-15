@@ -23,7 +23,10 @@ def get_base_out(model, loader, device, task_type):
                 _batch[key] = _batch[key].to(device)
             # print(_batch.keys())
             # print(_batch['labels'])
-            tmp_out = model.forward(_batch['token_ids'],_batch['attention_masks'],_batch['labels'])
+            if task_type == 'tigger':
+                tmp_out = model.forward(_batch['token_ids'],_batch['attention_masks'],None)
+            else:
+                tmp_out = model.forward(_batch['token_ids'],_batch['trigger_index'],_batch['attention_masks'],None)
             yield tmp_out
 
 
@@ -52,6 +55,56 @@ def pointer_trigger_decode(logits, raw_text, distant_triggers, start_threshold=0
                     continue
                 candidate_entities.append((raw_text[idx[0]: idx[1] + 1], idx[0],
                                            logits[idx[0]][0] + logits[idx[1]][1]))
+
+    entities = []
+
+    if len(candidate_entities):
+        candidate_entities = sorted(candidate_entities, key=lambda x: x[-1], reverse=True)
+
+        if one_trigger:
+            # 只解码一个，返回 logits 最大的 trigger
+            entities.append(candidate_entities[0][:2])
+        else:
+            # 解码多个，返回多个 trigger + 对应的 logits
+            for _ent in candidate_entities:
+                entities.append(_ent[:2])
+    else:
+        # 最后还是没有解码出 trigger 时选取 logits 最大的作为 trigger
+        start_ids = np.argmax(logits[:, 0])
+        end_ids = np.argmax(logits[:, 1])
+
+        if end_ids < start_ids:
+            end_ids = start_ids + np.argmax(logits[start_ids:, 1])
+
+        entities.append((raw_text[start_ids: end_ids + 1], int(start_ids)))
+
+    return entities
+
+def pointer_trigger_decode2(logits, raw_text, distant_triggers, start_threshold=0.5, end_threshold=0.5,
+                           one_trigger=True):
+    candidate_entities = []
+
+    start_ids = np.argwhere(logits[:, 0] > start_threshold)[:, 0]
+    end_ids = np.argwhere(logits[:, 1] > end_threshold)[:, 0]
+
+    # 选最短的
+    for _start in start_ids:
+        for _end in end_ids:
+            # 限定 trigger 长度不能超过 3
+            if _end >= _start and _end - _start <= 2:
+                # (start, end, start_logits + end_logits)
+                candidate_entities.append((raw_text[_start: _end + 1], _start, logits[_start][0] + logits[_end][1]))
+                break
+
+    # if not len(candidate_entities):
+    #     for _dis_trigger in distant_triggers:
+    #         trigger_ids = search_label_index(raw_text, _dis_trigger)
+
+    #         for idx in trigger_ids:
+    #             if idx[1] >= len(logits):
+    #                 continue
+    #             candidate_entities.append((raw_text[idx[0]: idx[1] + 1], idx[0],
+    #                                        logits[idx[0]][0] + logits[idx[1]][1]))
 
     entities = []
 
@@ -222,8 +275,8 @@ def trigger_evaluation(model, dev_info, device, **kwargs):
 
     pred_logits = None
 
-    for tmp_pred in get_base_out(model, dev_loader, device, 'role'):
-        tmp_pred = tmp_pred[1].cpu().numpy()
+    for tmp_pred in get_base_out(model, dev_loader, device, 'tigger'):
+        tmp_pred = tmp_pred[0].cpu().numpy()
         # print('--------------------test positin1------------')
         # print(tmp_pred)
 
