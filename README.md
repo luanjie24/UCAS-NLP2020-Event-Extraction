@@ -33,16 +33,16 @@ https://github.com/cpppx
 │   
 ├── src                                                 # 代码文件夹
 │   ├── config.py                                       # 配置定义
-│   ├── convert_raw_data.py                             #  
-│   ├── data_converter.py                               #
-│   ├── dataset_utils.py                                # 
-│   ├── evaluator.py                                    # 
+│   ├── convert_raw_data.py                             # 转换数据的格式 
+│   ├── data_converter.py                               # 没用到
+│   ├── dataset_utils.py                                # 处理数据
+│   ├── evaluator.py                                    # 评估模型
 │   ├── load_data.py                                    # 数据预处理
 │   ├── main.py                                         # 集成训练模块，便于进行模型训练
 │   ├── model.py                                        # 模型定义
-│   ├── predict.py                                      # 
-│   ├── processor.py                                    # 
-│   ├── test.py                                         # 
+│   ├── predict.py                                      # 模型批量提取文本事件
+│   ├── processor.py                                    # 数据格式封装，转换为特征向量
+│   ├── test.py                                         # 模型提取单个事件
 │   └── train.py                                        # 训练
 │
 └── README.md
