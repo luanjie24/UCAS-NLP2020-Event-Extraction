@@ -34,7 +34,7 @@ https://github.com/cpppx
 ├── src                                                 # 代码文件夹
 │   ├── config.py                                       # 配置定义
 │   ├── convert_raw_data.py                             #  
-│   ├── data_converter.py                               # 模型定义
+│   ├── data_converter.py                               #
 │   ├── dataset_utils.py                                # 
 │   ├── evaluator.py                                    # 
 │   ├── load_data.py                                    # 数据预处理
@@ -53,7 +53,7 @@ https://github.com/cpppx
 
 建立本项目的目的是为了学习，同时也是为了编程时方便分工
 
-本项目为pipeline+pytorch+句子级+中文的事件抽取，其中预训练模型用的是pytorch版的中文RoBERTa-wwm-ext模型
+本项目为基于pytorch的pipeline+句子级+中文的事件抽取，其中预训练模型用的是pytorch版的中文RoBERTa-wwm-ext模型
 
 特别感谢以下工作在我们完成作业的过程中给予的参考和帮助：
 
