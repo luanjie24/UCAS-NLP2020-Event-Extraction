@@ -18,10 +18,9 @@ https://github.com/Shirley123121
 ## 项目目录说明
 
 ```
-初步框架，后面可能会不断完善和修改
 
 │
-├── dataset                                             # 数据集文件夹
+├── dataset                                             # 数据集文件夹，主要使用了xf_2020_Corpus 
 │   ├── CEC-Corpus
 │   └── xf_2020_Corpus 
 │
