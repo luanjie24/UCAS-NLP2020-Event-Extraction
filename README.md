@@ -34,7 +34,6 @@ https://github.com/cpppx
 ├── src                                                 # 代码文件夹
 │   ├── config.py                                       # 配置定义
 │   ├── convert_raw_data.py                             # 转换数据的格式 
-│   ├── data_converter.py                               # 没用到
 │   ├── dataset_utils.py                                # 处理数据
 │   ├── evaluator.py                                    # 评估模型
 │   ├── load_data.py                                    # 数据预处理
