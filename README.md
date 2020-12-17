@@ -5,13 +5,14 @@ UCAS2020《自然语言处理》编程作业-事件抽取
 
 https://github.com/luanjie24
 
+https://github.com/Gwzlchn
+
 https://github.com/HuangXuerong-ucas
 
-https://github.com/Gwzlchn
+https://github.com/cpppx
 
 https://github.com/Shirley123121
 
-https://github.com/cpppx
 
 
 ## 项目目录说明
