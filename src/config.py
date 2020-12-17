@@ -3,10 +3,10 @@ import os, sys
 
 class Config:
     os.chdir(sys.path[0])# 这句话时防止相对路径在VSCode里用不了
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # 看有没有gpu(cuda)，没有就用cpu
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # 数据集的路径 
-    # dataset_train = '../dataset/xf_2020_Corpus/final/raw_data/preliminary_data_pred_trigger_and_role.json' # 总共576条数据
+    # dataset_train = '../dataset/xf_2020_Corpus/final/raw_data/preliminary_data_pred_trigger_and_role.json' 
     # dataset_saved = '../saved_model/dev_data' # 数据预处理后的数据存在这里
     # 训练集
     dataset_train = '../dataset/xf_2020_Corpus/final/EE2020/train.json'
@@ -32,17 +32,17 @@ class Config:
     train_batch_size = 25
     dev_batch_size = 25
     train_epochs = 40
-    sequence_length = 256 # 每句话的长度，不到这个长度就padding
-    trigger_extractor_mid_linear_dims = 128 # 这个是触发词提取模型的线性层的输出维度
-    sbj_obj_extractor_mid_linear_dims = 128 # 这个是主客体识别模型的线性层的输出维度
-    time_loc_extractor_mid_linear_dims = 128 # 这个是时间地点识别模型的线性层的输出维度
-    weight_decay = 0.0001 # optimizer的权重衰减，概念参见L2正则化
-    bert_learning_rate = 0.0000001 # bert模型的学习率
-    other_learning_rate = 0.00006 # 其他模型的学习率
-    adam_epsilon = 0.00000001 # 这个是优化器为了增加数值计算的稳定性而加到分母里的项，默认就是1e-8，可以先不改
-    warmup_proportion = 0.1 # scheduler慢热学习的比例，貌似用0.的1比较多
-    max_grad_norm = 1.0 # 大于1的梯度将其设为1.0, 以防梯度爆炸
-    num_workers = 0 # 训练是否开多线程，这块我电脑不是0会报错
+    sequence_length = 256
+    trigger_extractor_mid_linear_dims = 128
+    sbj_obj_extractor_mid_linear_dims = 128
+    time_loc_extractor_mid_linear_dims = 128
+    weight_decay = 0.0001
+    bert_learning_rate = 0.0000001
+    other_learning_rate = 0.00006
+    adam_epsilon = 0.00000001
+    warmup_proportion = 0.1
+    max_grad_norm = 1.0
+    num_workers = 0
 
     start_threshold = 0.1
     end_threshold = 1

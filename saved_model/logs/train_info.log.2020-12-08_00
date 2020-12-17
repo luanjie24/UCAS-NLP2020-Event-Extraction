@@ -1,9 +1,0 @@
-Step: 3080 / 3200 ----> total loss: 0.00494
-Step: 3100 / 3200 ----> total loss: 0.00530
-Step: 3120 / 3200 ----> total loss: 0.00569
-Step: 3140 / 3200 ----> total loss: 0.00522
-Step: 3160 / 3200 ----> total loss: 0.00504
-Step: 3180 / 3200 ----> total loss: 0.00535
-Step: 3200 / 3200 ----> total loss: 0.00519
-Saving model & optimizer & scheduler checkpoint to ../saved_model/models/TriggerExtractor/checkpoint-3200
-Train done

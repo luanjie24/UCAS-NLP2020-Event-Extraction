@@ -1,13 +1,3 @@
-"""
-main.py目前是对train.py的进一步封装，方便训练
-训练时的一些注意点：
-    1.调参的参数都在Config.py中，可以认真读一下
-    2.我的PC只有一个GPU，所以目前的实验是单GPU训练，如果改为多GPU可参考https://blog.csdn.net/daydayjump/article/details/81158777
-    3.包括调参和多GPU训练在内的代码改动尽量只改动config.py，如果要改其他文件可以先和我说一下
-    4.训练集还可以扩充
-
-"""
-
 import torch
 from torch.utils.data import DataLoader, RandomSampler, TensorDataset
 import torch.nn as nn

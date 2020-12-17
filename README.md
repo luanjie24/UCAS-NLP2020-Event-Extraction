@@ -1,5 +1,11 @@
-# nlp
-2020自然语言处理课程大作业-事件抽取
+# UCAS-NLP2020-Event-Extraction
+UCAS2020《自然语言处理》编程作业-事件抽取
+项目成员：
+https://github.com/luanjie24
+https://github.com/HuangXuerong-ucas
+https://github.com/Gwzlchn
+https://github.com/Shirley123121
+https://github.com/cpppx
 
 
 ## 项目目录说明
@@ -32,17 +38,26 @@
 
 ```
 
+## 项目说明
 
-## 目前的一些问题
-pytorch版的中文 RoBERTa-wwm-ext模型有点大，上传不上来，可以自己下载一下
+建立本项目的目的是为了学习，同时也是为了编程时方便分工
 
-目前的想法是：pipeline+pytorch+句子级+封闭域+中文的事件抽取，不知道效果怎么样，如果有人有更好的方案可以提，实在不行演示的时候直接拿训练数据演示
+本项目为pipeline+pytorch+句子级+中文的事件抽取，其中预训练模型用的是pytorch版的中文RoBERTa-wwm-ext模型
 
-如果用CEC数据集，有个问题是CEC数据集标的太细了，目前还没想明白怎么转换合适，可以先确定系统的输出格式再考虑怎么转换
+特别感谢以下工作在我们完成作业的过程中给予的参考和帮助：
+https://github.com/ymcui/Chinese-BERT-wwm
+https://github.com/WuHuRestaurant/xf_event_extraction2020Top1
+https://github.com/xiaoqian19940510/Event-Extraction
+https://github.com/dair-ai/ml-visuals
 
-模型结构可以看看reference，在此基础上针对CEC数据集改改结构（因为不同数据集标注的东西、事件的类型、Trigger的类型等等都不同），可以进一步讨论一下
+感谢清华大学刘洋教授开设的《自然语言处理》课程，这是我们完成本项目的契机。
 
-代码很多地方还在学，还得看看其他人的代码，另外比如模型结构BERT这块的实现还得再看看，看懂后能抄就抄
+## 注意事项
+有些路径需要自己创建，预训练模型需要自己下载
+
+## 改进方向
+目前触发词提取器和主体客体提取器能达到良好的效果，时间地点提取器模型设计已完成，但有待进一步进行训练验证。
+
+此外，触发词的识别目前只支持单触发词识别，当输入的句子触发词个数等于0或者大于1时，精度较差或者识别不出来，因此这也是之后改进的方向。
 
 
-## 工作日志

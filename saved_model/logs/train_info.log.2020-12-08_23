@@ -1,7 +1,0 @@
-********** Running training **********
-  Num Examples = 7999
-  Num Epochs = 10
-  Total training batch size = 25
-  Total optimization steps = 3200
-Save model in 320 steps; Eval model in 320 steps
-Save model at ../saved_model/models/SubObjExtractor
